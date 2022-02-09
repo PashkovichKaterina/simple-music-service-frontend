@@ -1,0 +1,68 @@
+a {
+    color: dodgerblue;
+}
+
+.auth-form {
+    width: 30%;
+    position: absolute;
+    left: 35%;
+    box-shadow: 0 0 10px #707070;
+    margin-top: 20px;
+    padding: 20px;
+}
+
+.auth-form h1 {
+    text-align: center;
+}
+
+.auth-form .input-element {
+    margin-bottom: 20px;
+}
+
+.auth-form input[type=text], .auth-form input[type=password] {
+    width: 100%;
+    padding: 15px;
+    margin: 5px 0 5px 0;
+    display: inline-block;
+    border: none;
+    background: #f1f1f1;
+    box-sizing: border-box;
+}
+
+.auth-form input[type=text]:focus, .auth-form input[type=password]:focus {
+    background-color: #ddd;
+    outline: none;
+}
+
+.auth-form button {
+    color: white;
+    padding: 16px 20px;
+    margin: 8px 0;
+    border: none;
+    cursor: pointer;
+    width: 30%;
+    opacity: 0.9;
+}
+
+.auth-form button:hover {
+    opacity: 1;
+}
+
+.auth-form button.submit {
+    background-color: #4CAF50;
+}
+
+.auth-form button.cancel {
+    background-color: #9d9c9c;
+    float: right;
+}
+
+.auth-form .error-massage {
+    color: red;
+}
+
+.auth-form .error-data {
+    color: red;
+    margin: 0;
+    font-size: 12px;
+}

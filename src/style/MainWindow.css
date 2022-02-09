@@ -1,0 +1,16 @@
+.button-block{
+    width: 30%;
+    left: 35%;
+    position: absolute;
+}
+.button-block button {
+    color: white;
+    padding: 16px 20px;
+    margin: 8px 0;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+    opacity: 0.9;
+    background-color: #4CAF50;
+    display: block;
+}

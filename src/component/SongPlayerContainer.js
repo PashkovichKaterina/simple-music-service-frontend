@@ -1,5 +1,5 @@
-import React from 'react';
-import '../style/SongPlayer.css'
+import React from "react";
+import "../style/SongPlayer.css"
 
 class SongPlayerContainer extends React.PureComponent {
     constructor(props) {
@@ -10,7 +10,7 @@ class SongPlayerContainer extends React.PureComponent {
     }
 
     componentDidMount() {
-        fetch("songs/1")
+        fetch("http://backend-service.us-west-2.elasticbeanstalk.com/songs/1/")
             .then(response => response.json())
             .then(json => this.setState({song: json}))
     }
