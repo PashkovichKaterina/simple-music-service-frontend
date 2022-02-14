@@ -15,7 +15,7 @@ jobs:
           aws-region: ${{ secrets.AWS_REGION }}
 
       - name: Build React App
-        run: npm install && npm run build
+        run: npm install && npm run build:deploy
 
       - name: Deploy app build to S3 bucket
-        run: npm run build
+        run: npm run deploy
