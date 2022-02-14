@@ -21,7 +21,7 @@
     "build:local": "env-cmd -f .env.local react-scripts build",
     "build:deploy": "env-cmd -f .env.deploy react-scripts build",
     "test": "react-scripts test",
-    "deploy": "aws s3 sync build:deploy/ s3://simple-music-service.com --acl public-read",
+    "deploy": "aws s3 sync build/ s3://simple-music-service.ru --acl public-read",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
