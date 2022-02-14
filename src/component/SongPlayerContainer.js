@@ -10,7 +10,7 @@ class SongPlayerContainer extends React.PureComponent {
     }
 
     componentDidMount() {
-        fetch("http://backend-service.us-west-2.elasticbeanstalk.com/songs/1/")
+        fetch(process.env.REACT_APP_BACKEND_URL + "songs/1/")
             .then(response => response.json())
             .then(json => this.setState({song: json}))
     }

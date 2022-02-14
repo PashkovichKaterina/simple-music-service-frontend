@@ -30,11 +30,11 @@ class SignInContainer extends React.PureComponent {
             };
             AuthenticationService.signin(user)
                 .then(response => {
-                    this.setState({isSuccessSignUp: response.ok});
+                    this.setState({isSuccessSignIn: response.ok});
                     return response.json();
                 })
                 .then(json => {
-                    if (this.state.isSuccessSignUp) {
+                    if (this.state.isSuccessSignIn) {
                         localStorage.setItem("accessToken", json.access);
                         localStorage.setItem("refreshToken", json.refresh);
                         this.setState({isSuccessSignIn: true});
@@ -77,7 +77,7 @@ class SignInContainer extends React.PureComponent {
                                    onChange={this.handleChangeInputField}/>
                         </div>
 
-                        <div className="error-massage">{errorMessage}</div>
+                        <div className="error-message">{errorMessage}</div>
 
                         <button type="submit" className="submit">Sign in</button>
                         <button type="button" className="cancel"

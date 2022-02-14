@@ -1,6 +1,6 @@
 class AuthenticationService {
     signin(user) {
-        return fetch("http://backend-service.us-west-2.elasticbeanstalk.com/token/", {
+        return fetch(process.env.REACT_APP_BACKEND_URL + "token/", {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',
@@ -10,7 +10,7 @@ class AuthenticationService {
     }
 
     signup(user) {
-        return fetch("http://backend-service.us-west-2.elasticbeanstalk.com/signup/", {
+        return fetch(process.env.REACT_APP_BACKEND_URL + "signup/", {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',
