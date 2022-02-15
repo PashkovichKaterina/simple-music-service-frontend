@@ -1,7 +1,7 @@
 import React from "react";
-import "../style/SongPlayer.css"
-import FormValidator from "../service/FormValidator";
-import AuthenticationService from "../service/AuthenticationService";
+import "../../style/SongPlayer.css"
+import FormValidator from "../../service/FormValidator";
+import BackendAPI from "../../service/BackendAPI";
 
 class SignUpContainer extends React.PureComponent {
     constructor(props) {
@@ -32,7 +32,7 @@ class SignUpContainer extends React.PureComponent {
                 email: email,
                 password: password
             };
-            AuthenticationService.signup(user)
+            BackendAPI.signup(user)
                 .then(response => {
                     this.setState({isSuccessSignUp: response.ok});
                     return response.json();

@@ -1,16 +1,43 @@
-.button-block{
-    width: 30%;
-    left: 35%;
-    position: absolute;
-}
-.button-block button {
+.user-panel {
+    display: inline-block;
+    width: 30vw;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background: #333;
     color: white;
-    padding: 16px 20px;
-    margin: 8px 0;
-    border: none;
+    font-size: 17px;
+}
+
+.user-inner-panel {
+    margin: 20px;
+}
+
+.profile-menu-item {
+    margin-top: 15px;
+    opacity: 0.8;
+}
+
+.profile-menu-item:hover {
+    opacity: 1;
     cursor: pointer;
-    width: 100%;
-    opacity: 0.9;
-    background-color: #4CAF50;
-    display: block;
+}
+
+.profile-block {
+    margin-left: 20px;
+}
+
+.icon {
+    display: inline-block;
+    margin-right: 5px;
+}
+
+
+.active-panel {
+    display: inline-block;
+    width: 60vw;
+    position: absolute;
+    left: 30vw;
+    padding: 20px 30px;
 }
