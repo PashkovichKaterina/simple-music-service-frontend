@@ -1,10 +1,10 @@
 import React from "react";
 import "../style/MainWindow.css"
-import {BrowserRouter, Route, Routes} from "react-router-dom";
+import {Route, Routes} from "react-router-dom";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faHouse, faMagnifyingGlass} from "@fortawesome/free-solid-svg-icons";
 import AccountContainer from "./AccountContainer";
-import UploadSongContainer from "./form/UploadSongContainer";
+import SongsContainer from "./song/SongsContainer";
 
 const MainWindow = (props) => {
     return (
@@ -26,7 +26,7 @@ const MainWindow = (props) => {
             </div>
             <div className="active-panel">
                 <Routes>
-                    <Route path="/users/:id/songs" element={<UploadSongContainer/>}/>
+                    <Route path="/" element={<SongsContainer/>}/>
                 </Routes>
             </div>
         </div>

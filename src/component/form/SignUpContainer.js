@@ -73,7 +73,7 @@ class SignUpContainer extends React.PureComponent {
                                    onChange={this.handleChangeInputField}/>
                             <p className="error-data"
                                hidden={FormValidator.isValidUsername(username) || formValidator}>
-                                Username field length must be from 1 to 30 characters without space
+                                Username field length must be from 1 to 50 characters without space
                             </p>
                         </div>
 

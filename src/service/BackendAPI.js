@@ -25,12 +25,15 @@ class BackendAPI {
         return fetch(process.env.REACT_APP_BACKEND_URL + "artists/")
     }
 
+    getAllSongs() {
+        return fetch(process.env.REACT_APP_BACKEND_URL + "songs/")
+    }
+
     saveSong(data) {
         return fetch(process.env.REACT_APP_BACKEND_URL + "songs/", {
             method: "POST",
             headers: {
-                "Authorization": "Bearer " + AuthorizationLogic.getAccessToken(),
-                "Content-Type": "multipart/form-data; boundary=Random",
+                "Authorization": "Bearer " + AuthorizationLogic.getAccessToken()
             },
             body: data
         })
