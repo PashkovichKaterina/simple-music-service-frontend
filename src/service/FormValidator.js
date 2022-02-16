@@ -32,7 +32,7 @@ class FormValidator {
     }
 
     isValidTitle(title) {
-        return title && title.match(/^\w{1,50}$/)
+        return title && title.match(/[\w ]{1,50}$/)
     }
 
     isValidArtist(artist) {
@@ -44,7 +44,8 @@ class FormValidator {
     }
 
     isValidSong(song) {
-        return song && song.files && song.files.length > 0 && song.files[0].size < process.env.FILE_UPLOAD_MAX_MEMORY_SIZE
+        return song && song.files && song.files.length > 0
+            && song.files[0].size < process.env.FILE_UPLOAD_MAX_MEMORY_SIZE
             && song.files[0].name.split('.').pop() === "mp3"
     }
 }

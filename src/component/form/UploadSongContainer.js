@@ -3,7 +3,6 @@ import "../../style/SignForm.css"
 import Select from "react-select";
 import BackendAPI from "../../service/BackendAPI";
 import FormValidator from "../../service/FormValidator";
-import AuthorizationLogic from "../../service/AuthorizationLogic";
 
 class UploadSongContainer extends React.PureComponent {
     constructor(props) {
@@ -83,7 +82,7 @@ class UploadSongContainer extends React.PureComponent {
                 <div className="auth-form">
                     <h1>Successful upload</h1>
                     <p>
-                        Click <a href={`/users/${AuthorizationLogic.getUserId()}/songs`}>here</a> to see all your songs.
+                        Click <a href="/songs">here</a> to see all your songs.
                     </p>
                 </div>
             )
@@ -99,7 +98,7 @@ class UploadSongContainer extends React.PureComponent {
                                    onChange={this.handleChangeInputField}/>
                             <p className="error-data"
                                hidden={FormValidator.isValidTitle(title) || formValidator}>
-                                Title field length must be from 1 to 50 characters without space
+                                Title field length must be from 1 to 50 characters
                             </p>
                         </div>
 
@@ -137,7 +136,7 @@ class UploadSongContainer extends React.PureComponent {
 
                         <button type="submit" className="submit">Upload</button>
                         <button type="button" className="cancel"
-                                onClick={() => window.location.assign(`/users/${AuthorizationLogic.getUserId()}/songs`)}>
+                                onClick={() => window.location.assign("/songs")}>
                             Cancel
                         </button>
                     </form>

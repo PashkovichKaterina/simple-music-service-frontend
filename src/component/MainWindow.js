@@ -6,7 +6,7 @@ import {faHouse, faMagnifyingGlass} from "@fortawesome/free-solid-svg-icons";
 import AccountContainer from "./AccountContainer";
 import SongsContainer from "./song/SongsContainer";
 
-const MainWindow = (props) => {
+const MainWindow = () => {
     return (
         <div>
             <div className="user-panel">
@@ -27,6 +27,7 @@ const MainWindow = (props) => {
             <div className="active-panel">
                 <Routes>
                     <Route path="/" element={<SongsContainer/>}/>
+                    <Route path="/songs" element={<SongsContainer/>}/>
                 </Routes>
             </div>
         </div>

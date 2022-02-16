@@ -33,7 +33,7 @@ class AccountContainer extends React.PureComponent {
                     </div>
                     <div className="profile-block">
                         <div className="profile-menu-item"
-                             onClick={() => window.location.assign("/users/" + AuthorizationLogic.getUserId() + "/songs")}>
+                             onClick={() => window.location.assign("/songs")}>
                             My songs
                         </div>
                         <div className="profile-menu-item">My playlists</div>

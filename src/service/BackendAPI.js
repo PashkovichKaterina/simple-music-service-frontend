@@ -29,6 +29,10 @@ class BackendAPI {
         return fetch(process.env.REACT_APP_BACKEND_URL + "songs/")
     }
 
+    getSongsByUserId(userId) {
+        return fetch(process.env.REACT_APP_BACKEND_URL + `users/${userId}/songs/`)
+    }
+
     saveSong(data) {
         return fetch(process.env.REACT_APP_BACKEND_URL + "songs/", {
             method: "POST",

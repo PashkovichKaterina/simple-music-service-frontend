@@ -34,7 +34,7 @@ a {
     outline: none;
 }
 
-.auth-form button {
+.auth-form button, button {
     color: white;
     padding: 16px 20px;
     margin: 8px 0;
@@ -44,11 +44,11 @@ a {
     opacity: 0.9;
 }
 
-.auth-form button:hover {
+.auth-form button:hover, button {
     opacity: 1;
 }
 
-.auth-form button.submit {
+.auth-form button.submit, button {
     background-color: #4CAF50;
 }
 
