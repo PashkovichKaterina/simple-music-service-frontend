@@ -2,6 +2,7 @@ import React from "react";
 import BackendAPI from "../../service/BackendAPI";
 import Song from "./Song";
 import AuthorizationLogic from "../../service/AuthorizationLogic";
+import "../../style/SongPlayer.css"
 
 class SongsContainer extends React.PureComponent {
     constructor(props) {

@@ -1,5 +1,4 @@
 import React from "react";
-import "../../style/SongPlayer.css"
 import FormValidator from "../../service/FormValidator";
 import BackendAPI from "../../service/BackendAPI";
 
@@ -107,7 +106,7 @@ class SignUpContainer extends React.PureComponent {
                             </p>
                         </div>
 
-                        <div className="error-massage">{errorMessage}</div>
+                        <div className="error-message">{errorMessage}</div>
 
                         <button type="submit" className="submit">Sign up</button>
                         <button type="button" className="cancel"

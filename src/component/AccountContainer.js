@@ -11,20 +11,7 @@ class AccountContainer extends React.PureComponent {
     }
 
     render() {
-        if (!AuthorizationLogic.isUserSignIn()) {
-            return (
-                <div>
-                    <div className="profile-menu-item"
-                         onClick={() => window.location.assign("/signin")}>
-                        Sign in
-                    </div>
-                    <div className="profile-menu-item"
-                         onClick={() => window.location.assign("/signup")}>
-                        Sign up
-                    </div>
-                </div>
-            )
-        } else {
+        if (AuthorizationLogic.isUserSignIn()) {
             return (
                 <div>
                     <div className="profile-menu-item">
@@ -38,6 +25,19 @@ class AccountContainer extends React.PureComponent {
                         </div>
                         <div className="profile-menu-item">My playlists</div>
                         <div className="profile-menu-item" onClick={this.signOut}>Sign out</div>
+                    </div>
+                </div>
+            )
+        } else {
+            return (
+                <div>
+                    <div className="profile-menu-item"
+                         onClick={() => window.location.assign("/signin")}>
+                        Sign in
+                    </div>
+                    <div className="profile-menu-item"
+                         onClick={() => window.location.assign("/signup")}>
+                        Sign up
                     </div>
                 </div>
             )
