@@ -1,6 +1,10 @@
 name: Deploy on AWS S3
 
-on: push
+on:
+  pull_request:
+    types: [ closed ]
+    branches:
+      - master
 
 jobs:
   build:

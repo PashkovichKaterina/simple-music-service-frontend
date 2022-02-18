@@ -1,12 +1,35 @@
 import React from "react";
 import "../style/MainWindow.css"
+import {Route, Routes} from "react-router-dom";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faHouse, faMagnifyingGlass} from "@fortawesome/free-solid-svg-icons";
+import AccountContainer from "./AccountContainer";
+import SongsContainer from "./song/SongsContainer";
 
-const MainWindow = (props) => {
+const MainWindow = () => {
     return (
-        <div className="button-block">
-            <button onClick={() => window.location.assign("/song")}>Listen to song</button>
-            <button onClick={() => window.location.assign("/signup")}>Sign up</button>
-            <button onClick={() => window.location.assign("/signin")}>Sign in</button>
+        <div>
+            <div className="user-panel">
+                <div className="user-inner-panel">
+                    <AccountContainer/>
+                    <hr/>
+                    <div className="profile-menu-item"
+                         onClick={() => window.location.assign("/")}>
+                        <FontAwesomeIcon icon={faHouse} className="icon"/>
+                        <span>Home</span>
+                    </div>
+                    <div className="profile-menu-item">
+                        <FontAwesomeIcon icon={faMagnifyingGlass} className="icon"/>
+                        <span>Search</span>
+                    </div>
+                </div>
+            </div>
+            <div className="active-panel">
+                <Routes>
+                    <Route path="/" element={<SongsContainer/>}/>
+                    <Route path="/songs" element={<SongsContainer/>}/>
+                </Routes>
+            </div>
         </div>
     )
 };

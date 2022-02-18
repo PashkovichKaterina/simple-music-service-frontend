@@ -1,19 +1,20 @@
 import "../style/App.css";
-import SongPlayerContainer from "./SongPlayerContainer";
 import {BrowserRouter, Route, Routes} from "react-router-dom";
-import SignInContainer from "./SignInContainer";
-import SignUpContainer from "./SignUpContainer";
+import SignInContainer from "./form/SignInContainer";
+import SignUpContainer from "./form/SignUpContainer";
 import MainWindow from "./MainWindow";
+import UploadSongContainer from "./form/UploadSongContainer";
+import React from "react";
 
 function App() {
     return (
         <div className="wrapper">
             <BrowserRouter>
                 <Routes>
-                    <Route path="/" element={<MainWindow/>}/>
                     <Route path="/signin" element={<SignInContainer/>}/>
                     <Route path="/signup" element={<SignUpContainer/>}/>
-                    <Route path="/song" element={<SongPlayerContainer/>}/>
+                    <Route path="/upload" element={<UploadSongContainer/>}/>
+                    <Route path="/*" element={<MainWindow/>}/>
                 </Routes>
             </BrowserRouter>
         </div>
