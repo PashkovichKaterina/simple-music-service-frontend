@@ -34,7 +34,7 @@ class BackendAPI {
     }
 
     saveSong(data) {
-        this.checkToken()
+        return this.checkToken()
             .then(() => {
                 return fetch(process.env.REACT_APP_BACKEND_URL + "songs/", {
                     method: "POST",
@@ -42,6 +42,20 @@ class BackendAPI {
                         "Authorization": "Bearer " + AuthorizationLogic.getAccessToken()
                     },
                     body: data
+                })
+            })
+    }
+
+    savePlaylist(playlist) {
+        return this.checkToken()
+            .then(() => {
+                return fetch(process.env.REACT_APP_BACKEND_URL + `users/${AuthorizationLogic.getUserId()}/playlists/`, {
+                    method: "POST",
+                    headers: {
+                        "Authorization": "Bearer " + AuthorizationLogic.getAccessToken(),
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(playlist)
                 })
             })
     }

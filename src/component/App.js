@@ -6,6 +6,7 @@ import MainWindow from "./MainWindow"
 import UploadSongContainer from "./form/UploadSongContainer"
 import React from "react"
 import PrivateRoute from "./PrivateRoute"
+import CreatePlaylistContainer from "./form/CreatePlaylistContainer"
 
 function App() {
     return (
@@ -14,6 +15,7 @@ function App() {
                 <Routes>
                     <Route element={<PrivateRoute/>}>
                         <Route path="/upload" element={<UploadSongContainer/>}/>
+                        <Route path="/create-playlist" element={<CreatePlaylistContainer/>}/>
                     </Route>
                     <Route path="/signin" element={<SignInContainer/>}/>
                     <Route path="/signup" element={<SignUpContainer/>}/>
