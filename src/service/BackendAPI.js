@@ -22,6 +22,7 @@ class BackendAPI {
     }
 
     getAllArtist() {
+        console.log(process.env.REACT_APP_BACKEND_URL)
         return fetch(process.env.REACT_APP_BACKEND_URL + "artists/")
     }
 
@@ -36,7 +37,7 @@ class BackendAPI {
     saveSong(data) {
         return this.checkToken()
             .then(() => {
-                return fetch(process.env.REACT_APP_BACKEND_URL + "songs/", {
+                return fetch(process.env.REACT_APP_BACKEND_URL + `users/${AuthorizationLogic.getUserId()}/songs/`, {
                     method: "POST",
                     headers: {
                         "Authorization": "Bearer " + AuthorizationLogic.getAccessToken()
@@ -60,6 +61,54 @@ class BackendAPI {
             })
     }
 
+    getPlaylistByUserId() {
+        return this.checkToken()
+            .then(() => {
+                return fetch(process.env.REACT_APP_BACKEND_URL + `users/${AuthorizationLogic.getUserId()}/playlists/`, {
+                    headers: {
+                        "Authorization": "Bearer " + AuthorizationLogic.getAccessToken()
+                    }
+                })
+            })
+    }
+
+    deletePlaylist(playlistId) {
+        return this.checkToken()
+            .then(() => {
+                return fetch(process.env.REACT_APP_BACKEND_URL + `users/${AuthorizationLogic.getUserId()}/playlists/${playlistId}/`, {
+                    method: "DELETE",
+                    headers: {
+                        "Authorization": "Bearer " + AuthorizationLogic.getAccessToken()
+                    }
+                })
+            })
+    }
+
+    getPlaylistSong(playlistId) {
+        return this.checkToken()
+            .then(() => {
+                return fetch(process.env.REACT_APP_BACKEND_URL + `users/${AuthorizationLogic.getUserId()}/playlists/${playlistId}/`, {
+                    headers: {
+                        "Authorization": "Bearer " + AuthorizationLogic.getAccessToken()
+                    }
+                })
+            })
+    }
+
+    updatePlaylist(playlist) {
+        return this.checkToken()
+            .then(() => {
+                return fetch(process.env.REACT_APP_BACKEND_URL + `users/${AuthorizationLogic.getUserId()}/playlists/${playlist.id}/`, {
+                    method: "PATCH",
+                    headers: {
+                        "Authorization": "Bearer " + AuthorizationLogic.getAccessToken(),
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(playlist)
+                })
+            })
+    }
+
     refreshToken() {
         return fetch(process.env.REACT_APP_BACKEND_URL + "token/refresh/", {
             method: "POST",
@@ -71,6 +120,8 @@ class BackendAPI {
             .then(response => {
                 if (response.ok) {
                     return response.json()
+                } else {
+                    window.location.assign("/signin")
                 }
             })
             .then(json => {

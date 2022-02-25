@@ -1,7 +1,7 @@
-import React from "react";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faUser} from "@fortawesome/free-solid-svg-icons";
-import AuthorizationLogic from "../service/AuthorizationLogic";
+import React from "react"
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome"
+import {faUser} from "@fortawesome/free-solid-svg-icons"
+import AuthorizationLogic from "../service/AuthorizationLogic"
 
 class AccountContainer extends React.PureComponent {
     signOut = () => {
@@ -23,7 +23,10 @@ class AccountContainer extends React.PureComponent {
                              onClick={() => window.location.assign("/songs")}>
                             My songs
                         </div>
-                        <div className="profile-menu-item">My playlists</div>
+                        <div className="profile-menu-item"
+                             onClick={() => window.location.assign("/playlists")}>
+                            My playlists
+                        </div>
                         <div className="profile-menu-item" onClick={this.signOut}>Sign out</div>
                     </div>
                 </div>
@@ -45,4 +48,4 @@ class AccountContainer extends React.PureComponent {
     }
 }
 
-export default AccountContainer;
+export default AccountContainer

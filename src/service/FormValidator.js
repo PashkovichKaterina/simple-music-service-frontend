@@ -45,7 +45,7 @@ class FormValidator {
 
     isValidSong(song) {
         return song && song.files && song.files.length > 0
-            && song.files[0].size < process.env.FILE_UPLOAD_MAX_MEMORY_SIZE
+            && song.files[0].size < process.env.REACT_APP_FILE_UPLOAD_MAX_MEMORY_SIZE
             && song.files[0].name.split('.').pop() === "mp3"
     }
 }
