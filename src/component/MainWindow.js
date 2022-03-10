@@ -2,7 +2,7 @@ import React from "react"
 import "../style/MainWindow.css"
 import {Route, Routes} from "react-router-dom"
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome"
-import {faHouse, faMagnifyingGlass} from "@fortawesome/free-solid-svg-icons"
+import {faHouse} from "@fortawesome/free-solid-svg-icons"
 import AccountContainer from "./AccountContainer"
 import SongsContainer from "./song/SongsContainer"
 import PrivateRoute from "./PrivateRoute"
@@ -20,10 +20,6 @@ const MainWindow = () => {
                          onClick={() => window.location.assign("/")}>
                         <FontAwesomeIcon icon={faHouse} className="icon"/>
                         <span>Home</span>
-                    </div>
-                    <div className="profile-menu-item">
-                        <FontAwesomeIcon icon={faMagnifyingGlass} className="icon"/>
-                        <span>Search</span>
                     </div>
                 </div>
             </div>
