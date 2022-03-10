@@ -38,7 +38,7 @@ class CreatePlaylistContainer extends React.PureComponent {
         this.setState({song: newSong})
     }
 
-    handleSubmitSignupForm = (event) => {
+    handleSubmitCreatePlaylistForm = (event) => {
         event.preventDefault()
         const {title, song} = this.state
         if (FormValidator.isValidTitle(title)) {
@@ -86,7 +86,7 @@ class CreatePlaylistContainer extends React.PureComponent {
         } else {
             return (
                 <div className="auth-form">
-                    <form onSubmit={this.handleSubmitSignupForm}>
+                    <form onSubmit={this.handleSubmitCreatePlaylistForm}>
                         <h1>Create playlist</h1>
 
                         <div className="input-element">
