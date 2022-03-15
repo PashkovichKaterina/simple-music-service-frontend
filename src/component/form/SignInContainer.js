@@ -56,7 +56,7 @@ class SignInContainer extends React.PureComponent {
         return (
             <div className="auth-form">
                 <form onSubmit={this.handleSubmitSignupForm}>
-                    <h1>Sign up</h1>
+                    <h1>Sign in</h1>
 
                     <div className="input-element">
                         <label htmlFor="username"><b>Username</b></label>

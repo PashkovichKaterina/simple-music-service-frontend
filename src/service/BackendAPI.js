@@ -22,16 +22,20 @@ class BackendAPI {
     }
 
     getAllArtist() {
-        console.log(process.env.REACT_APP_BACKEND_URL)
         return fetch(process.env.REACT_APP_BACKEND_URL + "artists/")
     }
 
-    getAllSongs() {
-        return fetch(process.env.REACT_APP_BACKEND_URL + "songs/")
+    getAllSongs(search) {
+        return fetch(this.getUrlWithSearchParam(process.env.REACT_APP_BACKEND_URL + "songs/", search))
     }
 
-    getSongsByUserId(userId) {
-        return fetch(process.env.REACT_APP_BACKEND_URL + `users/${userId}/songs/`)
+    getSongsByUserId(search) {
+        return fetch(
+            this.getUrlWithSearchParam(
+                process.env.REACT_APP_BACKEND_URL + `users/${AuthorizationLogic.getUserId()}/songs/`,
+                search
+            )
+        )
     }
 
     saveSong(data) {
@@ -61,14 +65,18 @@ class BackendAPI {
             })
     }
 
-    getPlaylistByUserId() {
+    getPlaylistByUserId(search) {
         return this.checkToken()
             .then(() => {
-                return fetch(process.env.REACT_APP_BACKEND_URL + `users/${AuthorizationLogic.getUserId()}/playlists/`, {
-                    headers: {
-                        "Authorization": "Bearer " + AuthorizationLogic.getAccessToken()
-                    }
-                })
+                return fetch(
+                    this.getUrlWithSearchParam(
+                        process.env.REACT_APP_BACKEND_URL + `users/${AuthorizationLogic.getUserId()}/playlists/`,
+                        search
+                    ), {
+                        headers: {
+                            "Authorization": "Bearer " + AuthorizationLogic.getAccessToken()
+                        }
+                    })
             })
     }
 
@@ -107,6 +115,13 @@ class BackendAPI {
                     body: JSON.stringify(playlist)
                 })
             })
+    }
+
+    getUrlWithSearchParam(url, search) {
+        if (search && search.length > 0) {
+            return `${url}?search=${search}`
+        }
+        return url
     }
 
     refreshToken() {

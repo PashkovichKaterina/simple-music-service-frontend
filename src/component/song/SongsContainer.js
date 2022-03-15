@@ -1,30 +1,37 @@
 import React from "react"
 import BackendAPI from "../../service/BackendAPI"
 import Song from "./Song"
-import AuthorizationLogic from "../../service/AuthorizationLogic"
 import "../../style/SongPlayer.css"
+import SearchPanel from "../SearchPanel"
 
 class SongsContainer extends React.PureComponent {
     constructor(props) {
         super(props)
         this.state = {
             songs: [],
-            playSong: ""
+            playSong: "",
+            search: ""
         }
     }
 
     componentDidMount() {
+        this.setSongs()
+    }
+
+    setSongs() {
         const {displayedInformation, playlistId} = this.props
+        const {search} = this.state
+        // eslint-disable-next-line
         switch (displayedInformation) {
             case "allSongs":
-                BackendAPI.getAllSongs()
+                BackendAPI.getAllSongs(search)
                     .then(response => response.json())
                     .then(json => this.setState({
                         songs: json
                     }))
                 break
             case "userSongs":
-                BackendAPI.getSongsByUserId(AuthorizationLogic.getUserId())
+                BackendAPI.getSongsByUserId(search)
                     .then(response => response.json())
                     .then(json => this.setState({
                         songs: json
@@ -93,6 +100,14 @@ class SongsContainer extends React.PureComponent {
             .then(json => this.setState({songs: json.song}))
     }
 
+    handleChangeInputField = (event) => {
+        this.setState({search: event.target.value})
+    }
+
+    handleSearch = () => {
+        this.setSongs()
+    }
+
     render() {
         const {songs, playlistTitle, userPlaylists} = this.state
         const {displayedInformation} = this.props
@@ -110,10 +125,14 @@ class SongsContainer extends React.PureComponent {
                       handleAddToPlaylist={this.handleAddToPlaylist}
                       handleDeleteFromPlaylist={this.handleDeleteFromPlaylist}/>)
             : <div>Empty list</div>
+        const searchPanel = displayedInformation !== "playlistSongs"
+            ? <SearchPanel handleChangeInputField={this.handleChangeInputField}
+                           handleSearch={this.handleSearch}/> : ""
         return (
             <div>
                 <h2>{playlistTitle}</h2>
                 {button}
+                {searchPanel}
                 {songList}
             </div>
         )

@@ -73,6 +73,24 @@ audio {
     padding: 10px 15px;
 }
 
+.search-panel input, .search-button {
+    font-size: 17px;
+    padding: 5px;
+}
+
+.search-panel input {
+    width: 80%;
+}
+
+.search-button {
+    width: auto;
+    border: 2px solid #4CAF50;
+}
+
+.search-panel {
+    width: 60%;
+}
+
 audio::-webkit-media-controls {
     width: inherit;
     height: inherit;
