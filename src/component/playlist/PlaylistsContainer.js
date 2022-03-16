@@ -76,8 +76,8 @@ class PlaylistsContainer extends React.PureComponent {
                           handleDeletePlaylist={this.handleDeletePlaylist}/>)
             : <div>Empty list</div>
         const sortingOptions = {
-            "title": "Sorting by title (A to Z)",
-            "-title": "Sorting by title (Z to A)"
+            "title": "Sort by title (A to Z)",
+            "-title": "Sort by title (Z to A)"
         }
         const paginationOptions = [5, 10, 15, 20]
         return (

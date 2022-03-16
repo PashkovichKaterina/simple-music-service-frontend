@@ -154,10 +154,10 @@ class SongsContainer extends React.PureComponent {
                       handleDeleteFromPlaylist={this.handleDeleteFromPlaylist}/>)
             : <div>Empty list</div>
         const sortingOptions = {
-            "-year": "Sorting by release date (newest to oldest)",
-            "year": "Sorting by release date (oldest to newest)",
-            "title": "Sorting by title (A to Z)",
-            "-title": "Sorting by title (Z to A)"
+            "-year": "Sort by release date (newest to oldest)",
+            "year": "Sort by release date (oldest to newest)",
+            "title": "Sort by title (A to Z)",
+            "-title": "Sort by title (Z to A)"
         }
         const panels = displayedInformation !== "playlistSongs"
             ? <div>
