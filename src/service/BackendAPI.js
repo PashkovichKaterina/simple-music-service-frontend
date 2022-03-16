@@ -25,15 +25,15 @@ class BackendAPI {
         return fetch(process.env.REACT_APP_BACKEND_URL + "artists/")
     }
 
-    getAllSongs(search, sorting) {
-        return fetch(this.getUrlWithParameters(process.env.REACT_APP_BACKEND_URL + "songs/", search, sorting))
+    getAllSongs(page, pageSize, search, sorting) {
+        return fetch(this.getUrlWithParameters(process.env.REACT_APP_BACKEND_URL + "songs/", page, pageSize, search, sorting))
     }
 
-    getSongsByUserId(search, sorting) {
+    getSongsByUserId(page, pageSize, search, sorting) {
         return fetch(
             this.getUrlWithParameters(
                 process.env.REACT_APP_BACKEND_URL + `users/${AuthorizationLogic.getUserId()}/songs/`,
-                search, sorting
+                page, pageSize, search, sorting
             )
         )
     }
@@ -65,13 +65,13 @@ class BackendAPI {
             })
     }
 
-    getPlaylistByUserId(search, sorting) {
+    getPlaylistByUserId(page, pageSize, search, sorting) {
         return this.checkToken()
             .then(() => {
                 return fetch(
                     this.getUrlWithParameters(
                         process.env.REACT_APP_BACKEND_URL + `users/${AuthorizationLogic.getUserId()}/playlists/`,
-                        search, sorting
+                        page, pageSize, search, sorting
                     ), {
                         headers: {
                             "Authorization": "Bearer " + AuthorizationLogic.getAccessToken()
@@ -117,8 +117,9 @@ class BackendAPI {
             })
     }
 
-    getUrlWithParameters(url, search, sorting) {
-        let parameters = this.getUrlParameter("search", search) + this.getUrlParameter("ordering", sorting)
+    getUrlWithParameters(url, page, pageSize, search, sorting) {
+        let parameters = this.getUrlParameter("page", page) + this.getUrlParameter("page_size", pageSize)
+            + this.getUrlParameter("search", search) + this.getUrlParameter("ordering", sorting)
         if (parameters && parameters.length > 0) {
             parameters = parameters.replace("&", "?")
         }

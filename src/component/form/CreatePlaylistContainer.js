@@ -26,9 +26,8 @@ class CreatePlaylistContainer extends React.PureComponent {
     }
 
     handleChangeInputField = (event) => {
-        const {name, value} = event.target
         this.setState({
-            [name]: value
+            title: event.target.value
         })
     }
 

@@ -103,6 +103,54 @@ audio {
     padding: 10px;
 }
 
+.pagination ul {
+    margin: 20px 0 0 0;
+    padding: 0;
+    display: inline-block;
+}
+
+.pagination ul li {
+    list-style-type: none;
+    display: inline-block;
+    padding: 10px 15px;
+    background: #4CAF50;
+}
+
+.pagination ul li a {
+    text-decoration: none;
+    color: white;
+    font-size: 17px;
+}
+
+.pagination ul li:hover {
+    cursor: pointer;
+}
+
+.pagination ul li.selected {
+    border: 1px solid black;
+}
+
+.pagination ul li.previous {
+    border-right: 1px solid white;
+    padding: 10px 30px;
+}
+
+.pagination ul li.next {
+    border-left: 1px solid white;
+    padding: 10px 30px;
+}
+
+.pagination select {
+    display: inline-block;
+    float: right;
+    padding: 10px 15px;
+    background: #4CAF50;
+    color: white;
+    font-size: 17px;
+    margin: 20px 0 0 0;
+    border: none;
+}
+
 audio::-webkit-media-controls {
     width: inherit;
     height: inherit;

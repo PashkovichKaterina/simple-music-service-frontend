@@ -4,6 +4,7 @@ import "../../style/SongPlayer.css"
 import Playlist from "./Playlist"
 import SearchPanel from "../SearchPanel"
 import SortingPanel from "../SortingPanel"
+import PaginationPanel from "../PaginationPanel"
 
 class PlaylistsContainer extends React.PureComponent {
     constructor(props) {
@@ -11,7 +12,10 @@ class PlaylistsContainer extends React.PureComponent {
         this.state = {
             playlists: [],
             search: "",
-            sorting: ""
+            sorting: "",
+            page: 1,
+            pageSize: 5,
+            playlistsCount: 0
         }
     }
 
@@ -20,11 +24,12 @@ class PlaylistsContainer extends React.PureComponent {
     }
 
     setPlaylists() {
-        const {search, sorting} = this.state
-        BackendAPI.getPlaylistByUserId(search, sorting)
+        const {page, pageSize, search, sorting} = this.state
+        BackendAPI.getPlaylistByUserId(page, pageSize, search, sorting)
             .then(response => response.json())
             .then(json => this.setState({
-                playlists: json
+                playlists: json.results,
+                playlistsCount: json.count
             }))
     }
 
@@ -48,8 +53,22 @@ class PlaylistsContainer extends React.PureComponent {
         })
     }
 
+    handleChangePage = (event) => {
+        const selectedPage = event.selected + 1
+        this.setState({page: selectedPage}, () => {
+            this.setPlaylists()
+        })
+    }
+
+    handleChangePageSize = (event) => {
+        const selectedPageSize = event.target.value
+        this.setState({pageSize: selectedPageSize, page: 1}, () => {
+            this.setPlaylists()
+        })
+    }
+
     render() {
-        const {playlists} = this.state
+        const {playlists, pageSize, playlistsCount} = this.state
         const playlistList = playlists.length > 0
             ? playlists.map(playlist =>
                 <Playlist key={playlist.id}
@@ -60,6 +79,7 @@ class PlaylistsContainer extends React.PureComponent {
             "title": "Sorting by title (A to Z)",
             "-title": "Sorting by title (Z to A)"
         }
+        const paginationOptions = [5, 10, 15, 20]
         return (
             <div>
                 <button onClick={() => window.location.assign("/create-playlist")}>Create playlist</button>
@@ -70,6 +90,11 @@ class PlaylistsContainer extends React.PureComponent {
                                   handleSorting={this.handleSorting}/>
                 </div>
                 {playlistList}
+                <PaginationPanel options={paginationOptions}
+                                 elementsCount={playlistsCount}
+                                 pageSize={pageSize}
+                                 handleChangePage={this.handleChangePage}
+                                 handleChangePageSize={this.handleChangePageSize}/>
             </div>
         )
     }
