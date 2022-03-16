@@ -3,6 +3,7 @@ import BackendAPI from "../../service/BackendAPI"
 import Song from "./Song"
 import "../../style/SongPlayer.css"
 import SearchPanel from "../SearchPanel"
+import SortingPanel from "../SortingPanel"
 
 class SongsContainer extends React.PureComponent {
     constructor(props) {
@@ -10,7 +11,8 @@ class SongsContainer extends React.PureComponent {
         this.state = {
             songs: [],
             playSong: "",
-            search: ""
+            search: "",
+            sorting: ""
         }
     }
 
@@ -20,18 +22,18 @@ class SongsContainer extends React.PureComponent {
 
     setSongs() {
         const {displayedInformation, playlistId} = this.props
-        const {search} = this.state
+        const {search, sorting} = this.state
         // eslint-disable-next-line
         switch (displayedInformation) {
             case "allSongs":
-                BackendAPI.getAllSongs(search)
+                BackendAPI.getAllSongs(search, sorting)
                     .then(response => response.json())
                     .then(json => this.setState({
                         songs: json
                     }))
                 break
             case "userSongs":
-                BackendAPI.getSongsByUserId(search)
+                BackendAPI.getSongsByUserId(search, sorting)
                     .then(response => response.json())
                     .then(json => this.setState({
                         songs: json
@@ -108,6 +110,12 @@ class SongsContainer extends React.PureComponent {
         this.setSongs()
     }
 
+    handleSorting = (event) => {
+        this.setState({sorting: event.target.id}, () => {
+            this.setSongs()
+        })
+    }
+
     render() {
         const {songs, playlistTitle, userPlaylists} = this.state
         const {displayedInformation} = this.props
@@ -125,14 +133,24 @@ class SongsContainer extends React.PureComponent {
                       handleAddToPlaylist={this.handleAddToPlaylist}
                       handleDeleteFromPlaylist={this.handleDeleteFromPlaylist}/>)
             : <div>Empty list</div>
-        const searchPanel = displayedInformation !== "playlistSongs"
-            ? <SearchPanel handleChangeInputField={this.handleChangeInputField}
-                           handleSearch={this.handleSearch}/> : ""
+        const sortingOptions = {
+            "-year": "Sorting by release date (newest to oldest)",
+            "year": "Sorting by release date (oldest to newest)",
+            "title": "Sorting by title (A to Z)",
+            "-title": "Sorting by title (Z to A)"
+        }
+        const panels = displayedInformation !== "playlistSongs"
+            ? <div>
+                <SearchPanel handleChangeInputField={this.handleChangeInputField}
+                             handleSearch={this.handleSearch}/>
+                <SortingPanel options={sortingOptions}
+                              handleSorting={this.handleSorting}/>
+            </div> : ""
         return (
             <div>
                 <h2>{playlistTitle}</h2>
                 {button}
-                {searchPanel}
+                {panels}
                 {songList}
             </div>
         )

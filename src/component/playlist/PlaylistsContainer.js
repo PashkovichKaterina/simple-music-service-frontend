@@ -3,13 +3,15 @@ import BackendAPI from "../../service/BackendAPI"
 import "../../style/SongPlayer.css"
 import Playlist from "./Playlist"
 import SearchPanel from "../SearchPanel"
+import SortingPanel from "../SortingPanel"
 
 class PlaylistsContainer extends React.PureComponent {
     constructor(props) {
         super(props)
         this.state = {
             playlists: [],
-            search: ""
+            search: "",
+            sorting: ""
         }
     }
 
@@ -18,8 +20,8 @@ class PlaylistsContainer extends React.PureComponent {
     }
 
     setPlaylists() {
-        const {search} = this.state
-        BackendAPI.getPlaylistByUserId(search)
+        const {search, sorting} = this.state
+        BackendAPI.getPlaylistByUserId(search, sorting)
             .then(response => response.json())
             .then(json => this.setState({
                 playlists: json
@@ -40,6 +42,12 @@ class PlaylistsContainer extends React.PureComponent {
         this.setPlaylists()
     }
 
+    handleSorting = (event) => {
+        this.setState({sorting: event.target.id}, () => {
+            this.setPlaylists()
+        })
+    }
+
     render() {
         const {playlists} = this.state
         const playlistList = playlists.length > 0
@@ -48,11 +56,19 @@ class PlaylistsContainer extends React.PureComponent {
                           playlist={playlist}
                           handleDeletePlaylist={this.handleDeletePlaylist}/>)
             : <div>Empty list</div>
+        const sortingOptions = {
+            "title": "Sorting by title (A to Z)",
+            "-title": "Sorting by title (Z to A)"
+        }
         return (
             <div>
                 <button onClick={() => window.location.assign("/create-playlist")}>Create playlist</button>
-                <SearchPanel handleChangeInputField={this.handleChangeInputField}
-                             handleSearch={this.handleSearch}/>
+                <div>
+                    <SearchPanel handleChangeInputField={this.handleChangeInputField}
+                                 handleSearch={this.handleSearch}/>
+                    <SortingPanel options={sortingOptions}
+                                  handleSorting={this.handleSorting}/>
+                </div>
                 {playlistList}
             </div>
         )

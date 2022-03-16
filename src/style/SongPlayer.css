@@ -91,6 +91,18 @@ audio {
     width: 60%;
 }
 
+.search-panel, .sorting-panel {
+    display: inline-block;
+}
+
+.sorting-panel select {
+    background: #4CAF50;
+    color: white;
+    border: none;
+    font-size: 17px;
+    padding: 10px;
+}
+
 audio::-webkit-media-controls {
     width: inherit;
     height: inherit;
