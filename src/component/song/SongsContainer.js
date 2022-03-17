@@ -3,6 +3,8 @@ import BackendAPI from "../../service/BackendAPI"
 import Song from "./Song"
 import "../../style/SongPlayer.css"
 import SearchPanel from "../SearchPanel"
+import SortingPanel from "../SortingPanel"
+import PaginationPanel from "../PaginationPanel"
 
 class SongsContainer extends React.PureComponent {
     constructor(props) {
@@ -10,7 +12,11 @@ class SongsContainer extends React.PureComponent {
         this.state = {
             songs: [],
             playSong: "",
-            search: ""
+            search: "",
+            sorting: "",
+            page: 1,
+            pageSize: 5,
+            songsCount: 0
         }
     }
 
@@ -20,21 +26,23 @@ class SongsContainer extends React.PureComponent {
 
     setSongs() {
         const {displayedInformation, playlistId} = this.props
-        const {search} = this.state
+        const {page, pageSize, search, sorting} = this.state
         // eslint-disable-next-line
         switch (displayedInformation) {
             case "allSongs":
-                BackendAPI.getAllSongs(search)
+                BackendAPI.getAllSongs(page, pageSize, search, sorting)
                     .then(response => response.json())
                     .then(json => this.setState({
-                        songs: json
+                        songs: json.results,
+                        songsCount: json.count
                     }))
                 break
             case "userSongs":
-                BackendAPI.getSongsByUserId(search)
+                BackendAPI.getSongsByUserId(page, pageSize, search, sorting)
                     .then(response => response.json())
                     .then(json => this.setState({
-                        songs: json
+                        songs: json.results,
+                        songsCount: json.count
                     }))
                 break
             case "playlistSongs":
@@ -108,8 +116,28 @@ class SongsContainer extends React.PureComponent {
         this.setSongs()
     }
 
+    handleSorting = (event) => {
+        this.setState({sorting: event.target.id}, () => {
+            this.setSongs()
+        })
+    }
+
+    handleChangePage = (event) => {
+        const selectedPage = event.selected + 1
+        this.setState({page: selectedPage}, () => {
+            this.setSongs()
+        })
+    }
+
+    handleChangePageSize = (event) => {
+        const selectedPageSize = event.target.value
+        this.setState({pageSize: selectedPageSize, page: 1}, () => {
+            this.setSongs()
+        })
+    }
+
     render() {
-        const {songs, playlistTitle, userPlaylists} = this.state
+        const {songs, playlistTitle, userPlaylists, songsCount, pageSize} = this.state
         const {displayedInformation} = this.props
         const button = displayedInformation === "userSongs"
             ? <button onClick={() => window.location.assign("/upload")}>Add song</button> : ""
@@ -125,15 +153,33 @@ class SongsContainer extends React.PureComponent {
                       handleAddToPlaylist={this.handleAddToPlaylist}
                       handleDeleteFromPlaylist={this.handleDeleteFromPlaylist}/>)
             : <div>Empty list</div>
-        const searchPanel = displayedInformation !== "playlistSongs"
-            ? <SearchPanel handleChangeInputField={this.handleChangeInputField}
-                           handleSearch={this.handleSearch}/> : ""
+        const sortingOptions = {
+            "-year": "Sort by release date (newest to oldest)",
+            "year": "Sort by release date (oldest to newest)",
+            "title": "Sort by title (A to Z)",
+            "-title": "Sort by title (Z to A)"
+        }
+        const panels = displayedInformation !== "playlistSongs"
+            ? <div>
+                <SearchPanel handleChangeInputField={this.handleChangeInputField}
+                             handleSearch={this.handleSearch}/>
+                <SortingPanel options={sortingOptions}
+                              handleSorting={this.handleSorting}/>
+            </div> : ""
+        const paginationOptions = [5, 10, 15, 20]
+        const paginationPanel = displayedInformation !== "playlistSongs"
+            ? <PaginationPanel options={paginationOptions}
+                               elementsCount={songsCount}
+                               pageSize={pageSize}
+                               handleChangePageSize={this.handleChangePageSize}
+                               handleChangePage={this.handleChangePage}/> : ""
         return (
             <div>
                 <h2>{playlistTitle}</h2>
                 {button}
-                {searchPanel}
+                {panels}
                 {songList}
+                {paginationPanel}
             </div>
         )
     }

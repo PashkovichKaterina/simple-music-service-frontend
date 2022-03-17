@@ -25,15 +25,15 @@ class BackendAPI {
         return fetch(process.env.REACT_APP_BACKEND_URL + "artists/")
     }
 
-    getAllSongs(search) {
-        return fetch(this.getUrlWithSearchParam(process.env.REACT_APP_BACKEND_URL + "songs/", search))
+    getAllSongs(page, pageSize, search, sorting) {
+        return fetch(this.getUrlWithParameters(process.env.REACT_APP_BACKEND_URL + "songs/", page, pageSize, search, sorting))
     }
 
-    getSongsByUserId(search) {
+    getSongsByUserId(page, pageSize, search, sorting) {
         return fetch(
-            this.getUrlWithSearchParam(
+            this.getUrlWithParameters(
                 process.env.REACT_APP_BACKEND_URL + `users/${AuthorizationLogic.getUserId()}/songs/`,
-                search
+                page, pageSize, search, sorting
             )
         )
     }
@@ -65,13 +65,13 @@ class BackendAPI {
             })
     }
 
-    getPlaylistByUserId(search) {
+    getPlaylistByUserId(page, pageSize, search, sorting) {
         return this.checkToken()
             .then(() => {
                 return fetch(
-                    this.getUrlWithSearchParam(
+                    this.getUrlWithParameters(
                         process.env.REACT_APP_BACKEND_URL + `users/${AuthorizationLogic.getUserId()}/playlists/`,
-                        search
+                        page, pageSize, search, sorting
                     ), {
                         headers: {
                             "Authorization": "Bearer " + AuthorizationLogic.getAccessToken()
@@ -117,11 +117,20 @@ class BackendAPI {
             })
     }
 
-    getUrlWithSearchParam(url, search) {
-        if (search && search.length > 0) {
-            return `${url}?search=${search}`
+    getUrlWithParameters(url, page, pageSize, search, sorting) {
+        let parameters = this.getUrlParameter("page", page) + this.getUrlParameter("page_size", pageSize)
+            + this.getUrlParameter("search", search) + this.getUrlParameter("ordering", sorting)
+        if (parameters && parameters.length > 0) {
+            parameters = parameters.replace("&", "?")
         }
-        return url
+        return url + parameters
+    }
+
+    getUrlParameter(name, value) {
+        if (value && value.toString().length > 0) {
+            return `&${name}=${value}`
+        }
+        return ""
     }
 
     refreshToken() {
