@@ -171,6 +171,8 @@ class SongsContainer extends React.PureComponent {
         const sortingOptions = {
             "-year": "Sort by release date (newest to oldest)",
             "year": "Sort by release date (oldest to newest)",
+            "-avg_rating": "Sort by rating (highest to lowest)",
+            "avg_rating": "Sort by rating (lowest to highest)",
             "title": "Sort by title (A to Z)",
             "-title": "Sort by title (Z to A)"
         }
