@@ -1,12 +1,12 @@
 import React from "react"
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome"
-import {faPlus, faClose} from "@fortawesome/free-solid-svg-icons"
+import {faPlus, faClose, faStar} from "@fortawesome/free-solid-svg-icons"
 import AuthorizationLogic from "../../service/AuthorizationLogic"
 
 const Song = (props) => {
     const {
         onPlay, song, onEnded, handleShowPlaylistList, userPlaylists, isPlaylist,
-        handleDeleteFromPlaylist, handleAddToPlaylist
+        handleDeleteFromPlaylist, handleAddToPlaylist, handleRateSong
     } = props
     const artistList = song.artist.map((a) => a.name).join(", ")
     const playlistList = userPlaylists && userPlaylists.length > 0
@@ -30,11 +30,34 @@ const Song = (props) => {
                     {playlistList}
                 </ul>
             </div> : ""
+    const rating = song.rating
+        ? <span> {song.rating} <span className="reviews-count">({song.reviews} reviews)</span></span>
+        : "not rated yet"
+    const user_mark = song.user_mark ? song.user_mark.mark : "-"
+    const mark_id = song.user_mark ? `rating-${song.user_mark.id}` : ""
+    const ratingButton = AuthorizationLogic.isUserSignIn()
+        ? <select className="rating-button" title="Rate this song" id={mark_id}
+                  onChange={handleRateSong}>
+            <option>Your mark: {user_mark}</option>
+            <option>1</option>
+            <option>2</option>
+            <option>3</option>
+            <option>4</option>
+            <option>5</option>
+        </select> : ""
     return (
-        <div className="song-player">
+        <div className="song-player" id={`song-player-${song.id}`}>
             {playlistButton}
             <p className="title">{song.title}</p>
             <p className="artist">{artistList}</p>
+            <p className="icon-block">
+                <FontAwesomeIcon icon={faStar}
+                                 id={song.id}
+                                 className="rating-icon icon"
+                                 title="Song rating"/>
+                {rating}
+            </p>
+            {ratingButton}
             <audio src={song.location}
                    controls={true}
                    className="player-component"

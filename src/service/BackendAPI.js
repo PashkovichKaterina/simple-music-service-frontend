@@ -26,16 +26,38 @@ class BackendAPI {
     }
 
     getAllSongs(page, pageSize, search, sorting) {
-        return fetch(this.getUrlWithParameters(process.env.REACT_APP_BACKEND_URL + "songs/", page, pageSize, search, sorting))
+        const url = this.getUrlWithParameters(process.env.REACT_APP_BACKEND_URL + "songs/", page, pageSize, search, sorting)
+        return this.checkToken()
+            .then(() => {
+                if (AuthorizationLogic.isValidAccessToken()) {
+                    return fetch(url, {
+                        headers: {
+                            "Authorization": "Bearer " + AuthorizationLogic.getAccessToken()
+                        },
+                    })
+                } else {
+                    return fetch(url)
+                }
+            })
     }
 
     getSongsByUserId(page, pageSize, search, sorting) {
-        return fetch(
-            this.getUrlWithParameters(
-                process.env.REACT_APP_BACKEND_URL + `users/${AuthorizationLogic.getUserId()}/songs/`,
-                page, pageSize, search, sorting
-            )
+        const url = this.getUrlWithParameters(
+            process.env.REACT_APP_BACKEND_URL + `users/${AuthorizationLogic.getUserId()}/songs/`,
+            page, pageSize, search, sorting
         )
+        return this.checkToken()
+            .then(() => {
+                if (AuthorizationLogic.isValidAccessToken()) {
+                    return fetch(url, {
+                        headers: {
+                            "Authorization": "Bearer " + AuthorizationLogic.getAccessToken()
+                        },
+                    })
+                } else {
+                    return fetch(url)
+                }
+            })
     }
 
     saveSong(data) {
@@ -117,6 +139,34 @@ class BackendAPI {
             })
     }
 
+    saveSongRating(songId, mark) {
+        return this.checkToken()
+            .then(() => {
+                return fetch(process.env.REACT_APP_BACKEND_URL + `songs/${songId}/ratings/`, {
+                    method: "POST",
+                    headers: {
+                        "Authorization": "Bearer " + AuthorizationLogic.getAccessToken(),
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({"mark": mark})
+                })
+            })
+    }
+
+    updateSongRating(songId, ratingId, mark) {
+        return this.checkToken()
+            .then(() => {
+                return fetch(process.env.REACT_APP_BACKEND_URL + `songs/${songId}/ratings/${ratingId}/`, {
+                    method: "PATCH",
+                    headers: {
+                        "Authorization": "Bearer " + AuthorizationLogic.getAccessToken(),
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({"mark": mark})
+                })
+            })
+    }
+
     getUrlWithParameters(url, page, pageSize, search, sorting) {
         let parameters = this.getUrlParameter("page", page) + this.getUrlParameter("page_size", pageSize)
             + this.getUrlParameter("search", search) + this.getUrlParameter("ordering", sorting)
@@ -158,7 +208,7 @@ class BackendAPI {
 
     checkToken() {
         let promise
-        if (!AuthorizationLogic.isValidAccessToken()) {
+        if (AuthorizationLogic.getAccessToken() && !AuthorizationLogic.isValidAccessToken()) {
             promise = this.refreshToken()
         } else {
             promise = new Promise((resolve) => {

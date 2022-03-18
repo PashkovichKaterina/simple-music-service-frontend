@@ -51,7 +51,7 @@ class AuthorizationLogic {
         if (token) {
             return Date.now() < jwt_decode(token).exp + "000"
         }
-        return true
+        return false
     }
 }
 

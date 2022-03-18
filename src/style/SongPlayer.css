@@ -151,6 +151,32 @@ audio {
     border: none;
 }
 
+.icon-block {
+    margin-left: 10px;
+}
+
+.rating-button {
+    position: absolute;
+    top: 5px;
+    right: 40px;
+    background: #4CAF50;
+    border: none;
+    color: white;
+    padding: 5px;
+}
+
+.rating-button:hover {
+    cursor: pointer;
+}
+
+.reviews-count {
+    font-size: 13px;
+}
+
+.rating-icon {
+    color: #ffea67;
+}
+
 audio::-webkit-media-controls {
     width: inherit;
     height: inherit;
