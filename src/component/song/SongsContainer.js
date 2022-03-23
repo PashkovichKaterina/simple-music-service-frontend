@@ -136,6 +136,20 @@ class SongsContainer extends React.PureComponent {
         })
     }
 
+    handleRateSong = (event) => {
+        const selectedRating = event.target.value
+        const ratingId = event.target.id.split("-").pop()
+        const songId = event.target.parentElement.id.split("-").pop()
+        if (ratingId) {
+            BackendAPI.updateSongRating(songId, ratingId, selectedRating)
+                .then(() => this.setSongs())
+        } else {
+            BackendAPI.saveSongRating(songId, selectedRating)
+                .then(() => this.setSongs())
+        }
+
+    }
+
     render() {
         const {songs, playlistTitle, userPlaylists, songsCount, pageSize} = this.state
         const {displayedInformation} = this.props
@@ -151,11 +165,14 @@ class SongsContainer extends React.PureComponent {
                       onEnded={this.handleOnEnded}
                       handleShowPlaylistList={this.handleShowPlaylistList}
                       handleAddToPlaylist={this.handleAddToPlaylist}
-                      handleDeleteFromPlaylist={this.handleDeleteFromPlaylist}/>)
+                      handleDeleteFromPlaylist={this.handleDeleteFromPlaylist}
+                      handleRateSong={this.handleRateSong}/>)
             : <div>Empty list</div>
         const sortingOptions = {
             "-year": "Sort by release date (newest to oldest)",
             "year": "Sort by release date (oldest to newest)",
+            "-avg_rating": "Sort by rating (highest to lowest)",
+            "avg_rating": "Sort by rating (lowest to highest)",
             "title": "Sort by title (A to Z)",
             "-title": "Sort by title (Z to A)"
         }
