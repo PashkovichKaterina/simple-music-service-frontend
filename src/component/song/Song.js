@@ -30,8 +30,8 @@ const Song = (props) => {
                     {playlistList}
                 </ul>
             </div> : ""
-    const rating = song.rating
-        ? <span> {song.rating} <span className="reviews-count">({song.reviews} reviews)</span></span>
+    const rating = song.average_rating
+        ? <span> {song.average_rating} <span className="reviews-count">({song.reviews_count} reviews)</span></span>
         : "not rated yet"
     const user_mark = song.user_mark ? song.user_mark.mark : "-"
     const mark_id = song.user_mark ? `rating-${song.user_mark.id}` : ""
