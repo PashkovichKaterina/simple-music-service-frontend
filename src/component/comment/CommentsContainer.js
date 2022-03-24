@@ -1,9 +1,9 @@
 import React from "react"
 import BackendAPI from "../../service/BackendAPI"
-import Comment from "./Comment"
+import CommentContainer from "./CommentContainer"
 import AuthorizationLogic from "../../service/AuthorizationLogic"
 import WritableComment from "./WritableComment"
-import PaginationPanel from "../PaginationPanel";
+import PaginationPanel from "../PaginationPanel"
 
 class CommentsContainer extends React.PureComponent {
     constructor(props) {
@@ -65,6 +65,19 @@ class CommentsContainer extends React.PureComponent {
         })
     }
 
+    handleDeleteComment = (event) => {
+        const {songId} = this.props
+        const commentId = event.target.id ? event.target.id : event.target.parentElement.id
+        BackendAPI.deleteComment(songId, commentId)
+            .then(() => this.setSongComments())
+    }
+
+    handleEditComment = (commentID, message) => {
+        const {songId} = this.props
+        BackendAPI.editComment(songId, commentID, message)
+            .then(() => this.setSongComments())
+    }
+
     render() {
         const {song, comments, newComment, commentsCount, page, pageSize} = this.state
         const songElement = song ?
@@ -76,8 +89,10 @@ class CommentsContainer extends React.PureComponent {
             </div> : ""
         const commentList = comments && comments.length > 0
             ? comments.map(comment =>
-                <Comment key={comment.id}
-                         comment={comment}/>) : ""
+                <CommentContainer key={comment.id}
+                                  comment={comment}
+                                  handleEditComment={this.handleEditComment}
+                                  handleDeleteComment={this.handleDeleteComment}/>) : ""
         const writableCommentElement = AuthorizationLogic.isUserSignIn()
             ? <WritableComment value={newComment}
                                handleCreateComment={this.handleCreateComment}

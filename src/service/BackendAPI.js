@@ -200,6 +200,32 @@ class BackendAPI {
             })
     }
 
+    deleteComment(songId, commentId) {
+        return this.checkToken()
+            .then(() => {
+                return fetch(process.env.REACT_APP_BACKEND_URL + `songs/${songId}/comments/${commentId}/`, {
+                    method: "DELETE",
+                    headers: {
+                        "Authorization": "Bearer " + AuthorizationLogic.getAccessToken()
+                    }
+                })
+            })
+    }
+
+    editComment(songId, commentId, message) {
+        return this.checkToken()
+            .then(() => {
+                return fetch(process.env.REACT_APP_BACKEND_URL + `songs/${songId}/comments/${commentId}/`, {
+                    method: "PATCH",
+                    headers: {
+                        "Authorization": "Bearer " + AuthorizationLogic.getAccessToken(),
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({"message": message})
+                })
+            })
+    }
+
     getUrlWithParameters(url, page, pageSize, search, sorting) {
         let parameters = this.getUrlParameter("page", page) + this.getUrlParameter("page_size", pageSize)
             + this.getUrlParameter("search", search) + this.getUrlParameter("ordering", sorting)
