@@ -47,7 +47,12 @@ class SongsContainer extends React.PureComponent {
                 break
             case "playlistSongs":
                 BackendAPI.getPlaylistSong(playlistId)
-                    .then(response => response.json())
+                    .then(response => {
+                        if (response.ok) {
+                            return response.json()
+                        }
+                        window.location.assign("/not_found")
+                    })
                     .then(json => this.setState({
                         playlistTitle: json.title,
                         songs: json.song

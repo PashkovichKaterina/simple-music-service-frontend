@@ -9,6 +9,7 @@ import PrivateRoute from "./PrivateRoute"
 import PlaylistsContainer from "./playlist/PlaylistsContainer"
 import PlaylistWindow from "./playlist/PlaylistWindow"
 import CommentWindow from "./comment/CommentWindow"
+import NotFound from "./NotFound"
 
 const MainWindow = () => {
     return (
@@ -33,6 +34,7 @@ const MainWindow = () => {
                         <Route path="/playlists" element={<PlaylistsContainer/>}/>
                         <Route path="/playlists/:id" element={<PlaylistWindow/>}/>
                     </Route>
+                    <Route path="*" element={<NotFound/>}/>
                 </Routes>
             </div>
         </div>

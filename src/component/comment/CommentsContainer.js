@@ -20,7 +20,12 @@ class CommentsContainer extends React.PureComponent {
     componentDidMount() {
         const {songId} = this.props
         BackendAPI.getSongById(songId)
-            .then(response => response.json())
+            .then(response => {
+                if (response.ok) {
+                    return response.json()
+                }
+                window.location.assign("/not_founds")
+            })
             .then(json => this.setState({song: json}, () => this.setSongComments()))
     }
 
