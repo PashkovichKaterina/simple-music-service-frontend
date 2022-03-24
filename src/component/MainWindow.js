@@ -8,6 +8,7 @@ import SongsContainer from "./song/SongsContainer"
 import PrivateRoute from "./PrivateRoute"
 import PlaylistsContainer from "./playlist/PlaylistsContainer"
 import PlaylistWindow from "./playlist/PlaylistWindow"
+import CommentWindow from "./comment/CommentWindow"
 
 const MainWindow = () => {
     return (
@@ -26,6 +27,7 @@ const MainWindow = () => {
             <div className="active-panel">
                 <Routes>
                     <Route path="/" element={<SongsContainer displayedInformation="allSongs"/>}/>
+                    <Route path="/songs/:id/comments/" element={<CommentWindow/>}/>
                     <Route element={<PrivateRoute/>}>
                         <Route path="/songs" element={<SongsContainer displayedInformation="userSongs"/>}/>
                         <Route path="/playlists" element={<PlaylistsContainer/>}/>

@@ -167,6 +167,39 @@ class BackendAPI {
             })
     }
 
+    getSongById(songId) {
+        return this.checkToken()
+            .then(() => {
+                if (AuthorizationLogic.isValidAccessToken()) {
+                    return fetch(process.env.REACT_APP_BACKEND_URL + `songs/${songId}/`, {
+                        headers: {
+                            "Authorization": "Bearer " + AuthorizationLogic.getAccessToken()
+                        },
+                    })
+                } else {
+                    return fetch(process.env.REACT_APP_BACKEND_URL + `songs/${songId}/`)
+                }
+            })
+    }
+
+    getSongComments(songId) {
+        return fetch(process.env.REACT_APP_BACKEND_URL + `songs/${songId}/comments/`)
+    }
+
+    createComment(songId, message) {
+        return this.checkToken()
+            .then(() => {
+                return fetch(process.env.REACT_APP_BACKEND_URL + `songs/${songId}/comments/`, {
+                    method: "POST",
+                    headers: {
+                        "Authorization": "Bearer " + AuthorizationLogic.getAccessToken(),
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({"message": message})
+                })
+            })
+    }
+
     getUrlWithParameters(url, page, pageSize, search, sorting) {
         let parameters = this.getUrlParameter("page", page) + this.getUrlParameter("page_size", pageSize)
             + this.getUrlParameter("search", search) + this.getUrlParameter("ordering", sorting)
