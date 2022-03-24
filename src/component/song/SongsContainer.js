@@ -151,7 +151,7 @@ class SongsContainer extends React.PureComponent {
     }
 
     render() {
-        const {songs, playlistTitle, userPlaylists, songsCount, pageSize} = this.state
+        const {songs, playlistTitle, userPlaylists, songsCount, page, pageSize} = this.state
         const {displayedInformation} = this.props
         const button = displayedInformation === "userSongs"
             ? <button onClick={() => window.location.assign("/upload")}>Add song</button> : ""
@@ -187,6 +187,7 @@ class SongsContainer extends React.PureComponent {
         const paginationPanel = displayedInformation !== "playlistSongs"
             ? <PaginationPanel options={paginationOptions}
                                elementsCount={songsCount}
+                               page={page}
                                pageSize={pageSize}
                                handleChangePageSize={this.handleChangePageSize}
                                handleChangePage={this.handleChangePage}/> : ""

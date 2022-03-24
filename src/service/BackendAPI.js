@@ -182,8 +182,8 @@ class BackendAPI {
             })
     }
 
-    getSongComments(songId) {
-        return fetch(process.env.REACT_APP_BACKEND_URL + `songs/${songId}/comments/`)
+    getSongComments(songId, page, pageSize) {
+        return fetch(this.getUrlWithParameters(process.env.REACT_APP_BACKEND_URL + `songs/${songId}/comments/`, page, pageSize))
     }
 
     createComment(songId, message) {

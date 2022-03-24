@@ -68,7 +68,7 @@ class PlaylistsContainer extends React.PureComponent {
     }
 
     render() {
-        const {playlists, pageSize, playlistsCount} = this.state
+        const {playlists, page, pageSize, playlistsCount} = this.state
         const playlistList = playlists.length > 0
             ? playlists.map(playlist =>
                 <Playlist key={playlist.id}
@@ -92,6 +92,7 @@ class PlaylistsContainer extends React.PureComponent {
                 {playlistList}
                 <PaginationPanel options={paginationOptions}
                                  elementsCount={playlistsCount}
+                                 page={page}
                                  pageSize={pageSize}
                                  handleChangePage={this.handleChangePage}
                                  handleChangePageSize={this.handleChangePageSize}/>
