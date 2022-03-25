@@ -45,7 +45,6 @@ const Song = (props) => {
             <option>4</option>
             <option>5</option>
         </select> : ""
-    const commentCount = song.comments ? song.comments.length : 0
     return (
         <div className="song-player" id={`song-player-${song.id}`}>
             {playlistButton}
@@ -64,7 +63,7 @@ const Song = (props) => {
                                      id={song.id}
                                      className="comments-icon icon"
                                      title="Song comments"/>
-                    {commentCount}
+                    {song.comments_count}
                 </p>
             </div>
             {ratingButton}

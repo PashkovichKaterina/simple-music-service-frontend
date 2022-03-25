@@ -208,6 +208,10 @@ audio {
     color: #666666;
 }
 
+.comment-block .title {
+    font-weight: bold;
+}
+
 .writable-comment-block {
     margin-top: 100px;
 }

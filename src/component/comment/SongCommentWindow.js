@@ -2,11 +2,11 @@ import {useParams} from "react-router-dom"
 import React from "react"
 import CommentsContainer from "./CommentsContainer"
 
-function CommentWindow() {
+function SongCommentWindow() {
     const {id} = useParams()
     return (
         <CommentsContainer songId={id}/>
     )
 }
 
-export default CommentWindow
+export default SongCommentWindow

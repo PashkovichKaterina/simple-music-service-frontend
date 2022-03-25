@@ -19,25 +19,37 @@ class CommentsContainer extends React.PureComponent {
 
     componentDidMount() {
         const {songId} = this.props
-        BackendAPI.getSongById(songId)
-            .then(response => {
-                if (response.ok) {
-                    return response.json()
-                }
-                window.location.assign("/not_founds")
-            })
-            .then(json => this.setState({song: json}, () => this.setSongComments()))
+        if (songId) {
+            BackendAPI.getSongById(songId)
+                .then(response => {
+                    if (response.ok) {
+                        return response.json()
+                    }
+                    window.location.assign("/not_founds")
+                })
+                .then(json => this.setState({song: json}))
+        }
+        this.setComments()
     }
 
-    setSongComments() {
+    setComments() {
         const {songId} = this.props
         const {page, pageSize} = this.state
-        BackendAPI.getSongComments(songId, page, pageSize)
-            .then(response => response.json())
-            .then(json => this.setState({
-                comments: json.results,
-                commentsCount: json.count
-            }))
+        if (songId) {
+            BackendAPI.getSongComments(songId, page, pageSize)
+                .then(response => response.json())
+                .then(json => this.setState({
+                    comments: json.results,
+                    commentsCount: json.count
+                }))
+        } else {
+            BackendAPI.getUserComments(page, pageSize)
+                .then(response => response.json())
+                .then(json => this.setState({
+                    comments: json.results,
+                    commentsCount: json.count
+                }))
+        }
     }
 
     handleChangeTextareaField = (event) => {
@@ -53,34 +65,33 @@ class CommentsContainer extends React.PureComponent {
             .then(() => this.setState({
                 newComment: "",
                 page: Math.ceil((commentsCount + 1) / pageSize)
-            }, () => this.setSongComments()))
+            }, () => this.setComments()))
     }
 
     handleChangePage = (event) => {
         const selectedPage = event.selected + 1
         this.setState({page: selectedPage}, () => {
-            this.setSongComments()
+            this.setComments()
         })
     }
 
     handleChangePageSize = (event) => {
         const selectedPageSize = event.target.value
         this.setState({pageSize: selectedPageSize, page: 1}, () => {
-            this.setSongComments()
+            this.setComments()
         })
     }
 
-    handleDeleteComment = (event) => {
-        const {songId} = this.props
-        const commentId = event.target.id ? event.target.id : event.target.parentElement.id
+    handleDeleteComment = (songId, commentId) => {
+        songId = songId ? songId : this.props.songId
         BackendAPI.deleteComment(songId, commentId)
-            .then(() => this.setSongComments())
+            .then(() => this.setComments())
     }
 
-    handleEditComment = (commentID, message) => {
-        const {songId} = this.props
+    handleEditComment = (commentID, message, songId) => {
+        songId = songId ? songId : this.props.songId
         BackendAPI.editComment(songId, commentID, message)
-            .then(() => this.setSongComments())
+            .then(() => this.setComments())
     }
 
     render() {
@@ -98,7 +109,7 @@ class CommentsContainer extends React.PureComponent {
                                   comment={comment}
                                   handleEditComment={this.handleEditComment}
                                   handleDeleteComment={this.handleDeleteComment}/>) : ""
-        const writableCommentElement = AuthorizationLogic.isUserSignIn()
+        const writableCommentElement = AuthorizationLogic.isUserSignIn() && song
             ? <WritableComment value={newComment}
                                handleCreateComment={this.handleCreateComment}
                                handleChangeTextareaField={this.handleChangeTextareaField}/> : ""
