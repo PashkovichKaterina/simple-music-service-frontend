@@ -61,7 +61,7 @@ a {
     color: red;
 }
 
-.auth-form .error-data {
+.error-data {
     color: red;
     margin: 0;
     font-size: 12px;

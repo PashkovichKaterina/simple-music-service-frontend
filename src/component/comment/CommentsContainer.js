@@ -4,6 +4,7 @@ import CommentContainer from "./CommentContainer"
 import AuthorizationLogic from "../../service/AuthorizationLogic"
 import WritableComment from "./WritableComment"
 import PaginationPanel from "../PaginationPanel"
+import FormValidator from "../../service/FormValidator"
 
 class CommentsContainer extends React.PureComponent {
     constructor(props) {
@@ -13,7 +14,8 @@ class CommentsContainer extends React.PureComponent {
             comments: [],
             page: 1,
             pageSize: 5,
-            commentsCount: 0
+            commentsCount: 0,
+            messageValidator: true
         }
     }
 
@@ -61,11 +63,18 @@ class CommentsContainer extends React.PureComponent {
     handleCreateComment = () => {
         const {songId} = this.props
         const {newComment, pageSize, commentsCount} = this.state
-        BackendAPI.createComment(songId, newComment)
-            .then(() => this.setState({
-                newComment: "",
-                page: Math.ceil((commentsCount + 1) / pageSize)
-            }, () => this.setComments()))
+        if (FormValidator.isValidCommentMessage(newComment)) {
+            BackendAPI.createComment(songId, newComment)
+                .then(() => this.setState({
+                    newComment: "",
+                    page: Math.ceil((commentsCount + 1) / pageSize)
+                }, () => {
+                    this.setState({messageValidator: true})
+                    this.setComments()
+                }))
+        } else {
+            this.setState({messageValidator: false})
+        }
     }
 
     handleChangePage = (event) => {
@@ -95,7 +104,7 @@ class CommentsContainer extends React.PureComponent {
     }
 
     render() {
-        const {song, comments, newComment, commentsCount, page, pageSize} = this.state
+        const {song, comments, newComment, commentsCount, page, pageSize, messageValidator} = this.state
         const songElement = song ?
             <div>
                 <h2>{song.title} - {song.artist.map((a) => a.name).join(", ")}</h2>
@@ -111,6 +120,7 @@ class CommentsContainer extends React.PureComponent {
                                   handleDeleteComment={this.handleDeleteComment}/>) : ""
         const writableCommentElement = AuthorizationLogic.isUserSignIn() && song
             ? <WritableComment value={newComment}
+                               isValidMessage={messageValidator || FormValidator.isValidCommentMessage(newComment)}
                                handleCreateComment={this.handleCreateComment}
                                handleChangeTextareaField={this.handleChangeTextareaField}/> : ""
         const paginationOptions = [5, 10, 15, 20]

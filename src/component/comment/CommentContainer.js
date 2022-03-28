@@ -3,6 +3,7 @@ import "../../style/SongPlayer.css"
 import {faEdit, faTrash} from "@fortawesome/free-solid-svg-icons"
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome"
 import AuthorizationLogic from "../../service/AuthorizationLogic"
+import FormValidator from "../../service/FormValidator"
 
 
 class CommentContainer extends React.PureComponent {
@@ -28,8 +29,9 @@ class CommentContainer extends React.PureComponent {
         const {message} = this.state
         const {comment, handleEditComment} = this.props
         const songId = comment.song ? comment.song.id : ""
-
-        this.setState({isEdit: false}, () => handleEditComment(comment.id, message, songId))
+        if (FormValidator.isValidCommentMessage(message)) {
+            this.setState({isEdit: false}, () => handleEditComment(comment.id, message, songId))
+        }
     }
 
     handleDeleteComment = () => {
@@ -56,9 +58,13 @@ class CommentContainer extends React.PureComponent {
         const messageElement = isEdit
             ? <div>
                 <textarea className="comment-message-block"
-                          placeholder="vmessageElementWrite your comment"
+                          placeholder="Write your comment"
                           value={message}
                           onChange={this.handleChangeTextareaField}/>
+                <p className="error-data"
+                   hidden={FormValidator.isValidCommentMessage(message)}>
+                    Message length must be from 1 to 100 characters
+                </p>
                 <button className="add-comment-button" onClick={this.handleEditComment}>Save</button>
             </div>
             : <p>{comment.message}</p>

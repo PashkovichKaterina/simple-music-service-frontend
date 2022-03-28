@@ -9,6 +9,7 @@ const PaginationPanel = (props) => {
         ? <select onChange={handleChangePageSize}>
             {optionsList}
         </select> : ""
+    const forcePage = page - 1 >= pageCount ? pageCount - 1 : page - 1
     return (
         <div className="pagination">
             <ReactPaginate
@@ -19,7 +20,7 @@ const PaginationPanel = (props) => {
                 pageCount={pageCount}
                 previousLabel="< previous"
                 renderOnZeroPageCount={null}
-                forcePage={page - 1}/>
+                forcePage={forcePage}/>
             {pageSizeElement}
         </div>
     )
