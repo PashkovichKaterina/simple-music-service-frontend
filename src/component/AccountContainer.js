@@ -27,6 +27,10 @@ class AccountContainer extends React.PureComponent {
                              onClick={() => window.location.assign("/playlists")}>
                             My playlists
                         </div>
+                        <div className="profile-menu-item"
+                             onClick={() => window.location.assign(`/users/${AuthorizationLogic.getUserId()}/comments`)}>
+                            My comments
+                        </div>
                         <div className="profile-menu-item" onClick={this.signOut}>Sign out</div>
                     </div>
                 </div>

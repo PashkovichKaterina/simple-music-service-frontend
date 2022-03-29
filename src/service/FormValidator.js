@@ -48,6 +48,11 @@ class FormValidator {
             && song.files[0].size < process.env.REACT_APP_FILE_UPLOAD_MAX_MEMORY_SIZE
             && song.files[0].name.split('.').pop() === "mp3"
     }
+
+    isValidCommentMessage(message) {
+        return message && message.length >= process.env.REACT_APP_MIN_COMMENT_LENGTH
+            && message.length <= process.env.REACT_APP_MAX_COMMENT_LENGTH
+    }
 }
 
-export default new FormValidator();
+export default new FormValidator()

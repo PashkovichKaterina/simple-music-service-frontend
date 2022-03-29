@@ -1,6 +1,6 @@
 import React from "react"
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome"
-import {faPlus, faClose, faStar} from "@fortawesome/free-solid-svg-icons"
+import {faPlus, faClose, faStar, faComment} from "@fortawesome/free-solid-svg-icons"
 import AuthorizationLogic from "../../service/AuthorizationLogic"
 
 const Song = (props) => {
@@ -50,13 +50,22 @@ const Song = (props) => {
             {playlistButton}
             <p className="title">{song.title}</p>
             <p className="artist">{artistList}</p>
-            <p className="icon-block">
-                <FontAwesomeIcon icon={faStar}
-                                 id={song.id}
-                                 className="rating-icon icon"
-                                 title="Song rating"/>
-                {rating}
-            </p>
+            <div className="icon-block">
+                <p className="rating-block">
+                    <FontAwesomeIcon icon={faStar}
+                                     id={song.id}
+                                     className="rating-icon icon"
+                                     title="Song rating"/>
+                    {rating}
+                </p>
+                <p className="see-comment-button" onClick={() => window.location.assign(`/songs/${song.id}/comments`)}>
+                    <FontAwesomeIcon icon={faComment}
+                                     id={song.id}
+                                     className="comments-icon icon"
+                                     title="Song comments"/>
+                    {song.comments_count}
+                </p>
+            </div>
             {ratingButton}
             <audio src={song.location}
                    controls={true}

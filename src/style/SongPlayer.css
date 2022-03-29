@@ -177,6 +177,74 @@ audio {
     color: #ffea67;
 }
 
+.rating-block, .see-comment-button {
+    display: inline-block;
+    margin: 0;
+}
+
+.comments-icon {
+    color: #a9baff;
+}
+
+.see-comment-button {
+    padding-left: 20px;
+}
+
+.see-comment-button:hover {
+    cursor: pointer;
+}
+
+.comment-block {
+    position: relative;
+    border: 1px solid #333;
+    box-shadow: 2px 2px 6px #666;
+    padding: 0 10px;
+    margin: 20px 0;
+    font-size: 17px;
+}
+
+.comment-block .username {
+    font-weight: bold;
+    color: #666666;
+}
+
+.comment-block .title {
+    font-weight: bold;
+}
+
+.writable-comment-block {
+    margin-top: 100px;
+}
+
+.comment-message-block {
+    width: 100%;
+    resize: none;
+    height: 150px;
+}
+
+.add-comment-button {
+    display: block;
+    padding: 10px 30px;
+    width: auto;
+    margin-right: 5px;
+    background-color: #4CAF50;
+}
+
+.comment-icon-block {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+}
+
+.comment-icon {
+    margin: 0 5px;
+    color: #333;
+}
+
+.comment-icon:hover {
+    cursor: pointer
+}
+
 audio::-webkit-media-controls {
     width: inherit;
     height: inherit;

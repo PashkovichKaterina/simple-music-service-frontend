@@ -167,6 +167,78 @@ class BackendAPI {
             })
     }
 
+    getSongById(songId) {
+        return this.checkToken()
+            .then(() => {
+                if (AuthorizationLogic.isValidAccessToken()) {
+                    return fetch(process.env.REACT_APP_BACKEND_URL + `songs/${songId}/`, {
+                        headers: {
+                            "Authorization": "Bearer " + AuthorizationLogic.getAccessToken()
+                        },
+                    })
+                } else {
+                    return fetch(process.env.REACT_APP_BACKEND_URL + `songs/${songId}/`)
+                }
+            })
+    }
+
+    getSongComments(songId, page, pageSize) {
+        return fetch(this.getUrlWithParameters(process.env.REACT_APP_BACKEND_URL + `songs/${songId}/comments/`, page, pageSize))
+    }
+
+    createComment(songId, message) {
+        return this.checkToken()
+            .then(() => {
+                return fetch(process.env.REACT_APP_BACKEND_URL + `songs/${songId}/comments/`, {
+                    method: "POST",
+                    headers: {
+                        "Authorization": "Bearer " + AuthorizationLogic.getAccessToken(),
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({"message": message})
+                })
+            })
+    }
+
+    deleteComment(songId, commentId) {
+        return this.checkToken()
+            .then(() => {
+                return fetch(process.env.REACT_APP_BACKEND_URL + `songs/${songId}/comments/${commentId}/`, {
+                    method: "DELETE",
+                    headers: {
+                        "Authorization": "Bearer " + AuthorizationLogic.getAccessToken()
+                    }
+                })
+            })
+    }
+
+    editComment(songId, commentId, message) {
+        return this.checkToken()
+            .then(() => {
+                return fetch(process.env.REACT_APP_BACKEND_URL + `songs/${songId}/comments/${commentId}/`, {
+                    method: "PATCH",
+                    headers: {
+                        "Authorization": "Bearer " + AuthorizationLogic.getAccessToken(),
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({"message": message})
+                })
+            })
+    }
+
+    getUserComments(page, pageSize) {
+        return this.checkToken()
+            .then(() => {
+                return fetch(this.getUrlWithParameters(process.env.REACT_APP_BACKEND_URL + `users/${AuthorizationLogic.getUserId()}/comments/`, page, pageSize), {
+                    method: "GET",
+                    headers: {
+                        "Authorization": "Bearer " + AuthorizationLogic.getAccessToken(),
+                        "Content-Type": "application/json",
+                    }
+                })
+            })
+    }
+
     getUrlWithParameters(url, page, pageSize, search, sorting) {
         let parameters = this.getUrlParameter("page", page) + this.getUrlParameter("page_size", pageSize)
             + this.getUrlParameter("search", search) + this.getUrlParameter("ordering", sorting)
