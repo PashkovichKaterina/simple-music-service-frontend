@@ -63,17 +63,19 @@ class CommentContainer extends React.PureComponent {
                           onChange={this.handleChangeTextareaField}/>
                 <p className="error-data"
                    hidden={FormValidator.isValidCommentMessage(message)}>
-                    Message length must be from 1 to 100 characters
+                    {`Message length must be from ${process.env.REACT_APP_MIN_COMMENT_LENGTH} 
+                    to ${process.env.REACT_APP_MAX_COMMENT_LENGTH} characters`}
                 </p>
                 <button className="add-comment-button" onClick={this.handleEditComment}>Save</button>
             </div>
             : <p>{comment.message}</p>
-        const title = comment.user
-            ? <p className="username">{comment.user.username} - {comment.created_date}</p>
-            : <div>
+        const username = comment.user ? comment.user.username : "User was deleted"
+        const title = comment.song
+            ? <div>
                 <p className="title">{comment.song.title} - {comment.song.artist.map((a) => a.name).join(", ")}</p>
-                <p className="username">{comment.created_date}</p>
+                <p className="username">{comment.created_date_time}</p>
             </div>
+            : <p className="username">{username} - {comment.created_date_time}</p>
         return (
             <div className="comment-block">
                 {title}

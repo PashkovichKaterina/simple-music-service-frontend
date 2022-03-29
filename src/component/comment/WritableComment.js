@@ -11,7 +11,8 @@ const WritableComment = (props) => {
                       onChange={handleChangeTextareaField}/>
             <p className="error-data"
                hidden={isValidMessage}>
-                Message length must be from 1 to 100 characters
+                {`Message length must be from ${process.env.REACT_APP_MIN_COMMENT_LENGTH} 
+                    to ${process.env.REACT_APP_MAX_COMMENT_LENGTH} characters`}
             </p>
             <button className="add-comment-button" onClick={handleCreateComment}>Save</button>
         </div>

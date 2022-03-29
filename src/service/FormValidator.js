@@ -50,8 +50,8 @@ class FormValidator {
     }
 
     isValidCommentMessage(message) {
-        const regex = /.{1,100}$/
-        return message && message.match(regex) && message.match(regex)[0] === message
+        return message && message.length >= process.env.REACT_APP_MIN_COMMENT_LENGTH
+            && message.length <= process.env.REACT_APP_MAX_COMMENT_LENGTH
     }
 }
 
