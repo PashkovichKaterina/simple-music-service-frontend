@@ -1,4 +1,5 @@
 import React from "react"
+import moment from "moment-timezone"
 import "../../style/SongPlayer.css"
 import {faEdit, faTrash} from "@fortawesome/free-solid-svg-icons"
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome"
@@ -70,12 +71,15 @@ class CommentContainer extends React.PureComponent {
             </div>
             : <p>{comment.message}</p>
         const username = comment.user ? comment.user.username : "User was deleted"
+        const createdDateTime = moment(comment.created_date_time)
+        const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone
+        const createdDateTimeString = createdDateTime.tz(userTimeZone).format(process.env.REACT_APP_DATETIME_FORMAT)
         const title = comment.song
             ? <div>
                 <p className="title">{comment.song.title} - {comment.song.artist.map((a) => a.name).join(", ")}</p>
-                <p className="username">{comment.created_date_time}</p>
+                <p className="username">{createdDateTimeString}</p>
             </div>
-            : <p className="username">{username} - {comment.created_date_time}</p>
+            : <p className="username">{username} - {createdDateTimeString}</p>
         return (
             <div className="comment-block">
                 {title}
