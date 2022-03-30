@@ -27,7 +27,7 @@ audio {
     height: 30px;
 }
 
-.listen-playlist-button, .delete-playlist-button {
+.listen-playlist-button, .delete-playlist-button, .delete-song-button {
     color: #ffffff;
     margin: 5px 10px;
     padding: 10px 30px;
@@ -36,8 +36,14 @@ audio {
     width: auto;
 }
 
-.delete-playlist-button {
+.delete-playlist-button, .delete-song-button {
     background: #ad2121;
+}
+
+.delete-song-button {
+    position: absolute;
+    right: 30px;
+    bottom: 30px;
 }
 
 .add-to-playlist {

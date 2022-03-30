@@ -5,8 +5,8 @@ import AuthorizationLogic from "../../service/AuthorizationLogic"
 
 const Song = (props) => {
     const {
-        onPlay, song, onEnded, handleShowPlaylistList, userPlaylists, isPlaylist,
-        handleDeleteFromPlaylist, handleAddToPlaylist, handleRateSong
+        onPlay, song, onEnded, handleShowPlaylistList, userPlaylists, isPlaylist, displayedInformation,
+        handleDeleteFromPlaylist, handleAddToPlaylist, handleRateSong, handleDeleteSong
     } = props
     const artistList = song.artist.map((a) => a.name).join(", ")
     const playlistList = userPlaylists && userPlaylists.length > 0
@@ -45,6 +45,8 @@ const Song = (props) => {
             <option>4</option>
             <option>5</option>
         </select> : ""
+    const deleteButton = displayedInformation === "userSongs"
+        ? <button className="delete-song-button" onClick={handleDeleteSong}>Delete</button> : ""
     return (
         <div className="song-player" id={`song-player-${song.id}`}>
             {playlistButton}
@@ -67,6 +69,7 @@ const Song = (props) => {
                 </p>
             </div>
             {ratingButton}
+            {deleteButton}
             <audio src={song.location}
                    controls={true}
                    className="player-component"

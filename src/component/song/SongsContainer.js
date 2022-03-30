@@ -152,7 +152,12 @@ class SongsContainer extends React.PureComponent {
             BackendAPI.saveSongRating(songId, selectedRating)
                 .then(() => this.setSongs())
         }
+    }
 
+    handleDeleteSong = (event) => {
+        const songId = event.target.parentElement.id.split("-").pop()
+        BackendAPI.deleteSong(songId)
+            .then(() => this.setSongs())
     }
 
     render() {
@@ -166,12 +171,14 @@ class SongsContainer extends React.PureComponent {
                       song={song}
                       userPlaylists={userPlaylists}
                       isPlaylist={playlistTitle && playlistTitle.length > 0}
+                      displayedInformation={displayedInformation}
                       onPlay={this.handleOnPlay}
                       onEnded={this.handleOnEnded}
                       handleShowPlaylistList={this.handleShowPlaylistList}
                       handleAddToPlaylist={this.handleAddToPlaylist}
                       handleDeleteFromPlaylist={this.handleDeleteFromPlaylist}
-                      handleRateSong={this.handleRateSong}/>)
+                      handleRateSong={this.handleRateSong}
+                      handleDeleteSong={this.handleDeleteSong}/>)
             : <div>Empty list</div>
         const sortingOptions = {
             "-year": "Sort by release date (newest to oldest)",
