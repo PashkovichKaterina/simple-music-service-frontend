@@ -73,6 +73,18 @@ class BackendAPI {
             })
     }
 
+    deleteSong(songId) {
+        return this.checkToken()
+            .then(() => {
+                return fetch(process.env.REACT_APP_BACKEND_URL + `users/${AuthorizationLogic.getUserId()}/songs/${songId}/`, {
+                    method: "DELETE",
+                    headers: {
+                        "Authorization": "Bearer " + AuthorizationLogic.getAccessToken()
+                    }
+                })
+            })
+    }
+
     savePlaylist(playlist) {
         return this.checkToken()
             .then(() => {
