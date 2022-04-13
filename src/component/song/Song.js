@@ -2,11 +2,12 @@ import React from "react"
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome"
 import {faPlus, faClose, faStar, faComment} from "@fortawesome/free-solid-svg-icons"
 import AuthorizationLogic from "../../service/AuthorizationLogic"
+import {withLDConsumer} from "launchdarkly-react-client-sdk"
 
 const Song = (props) => {
     const {
         onPlay, song, onEnded, handleShowPlaylistList, userPlaylists, isPlaylist, displayedInformation,
-        handleDeleteFromPlaylist, handleAddToPlaylist, handleRateSong, handleDeleteSong
+        handleDeleteFromPlaylist, handleAddToPlaylist, handleRateSong, handleDeleteSong, flags
     } = props
     const artistList = song.artist.map((a) => a.name).join(", ")
     const playlistList = userPlaylists && userPlaylists.length > 0
@@ -45,7 +46,7 @@ const Song = (props) => {
             <option>4</option>
             <option>5</option>
         </select> : ""
-    const deleteButton = displayedInformation === "userSongs"
+    const deleteButton = displayedInformation === "userSongs" && flags.isDeleteSongAvailable
         ? <button className="delete-song-button" onClick={handleDeleteSong}>Delete</button> : ""
     return (
         <div className="song-player" id={`song-player-${song.id}`}>
@@ -80,4 +81,4 @@ const Song = (props) => {
     )
 }
 
-export default Song
+export default withLDConsumer()(Song)

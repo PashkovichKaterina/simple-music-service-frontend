@@ -11,6 +11,7 @@
     "@testing-library/user-event": "^13.5.0",
     "env-cmd": "^10.1.0",
     "jwt-decode": "^3.1.2",
+    "launchdarkly-react-client-sdk": "^2.25.1",
     "moment-timezone": "^0.5.34",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
