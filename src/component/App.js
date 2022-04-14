@@ -7,6 +7,7 @@ import UploadSongContainer from "./form/UploadSongContainer"
 import React from "react"
 import PrivateRoute from "./PrivateRoute"
 import CreatePlaylistContainer from "./form/CreatePlaylistContainer"
+import {withLDProvider} from "launchdarkly-react-client-sdk"
 
 function App() {
     return (
@@ -26,4 +27,9 @@ function App() {
     )
 }
 
-export default App
+export default withLDProvider({
+    clientSideID: process.env.REACT_APP_LAUNCH_DARKLY_CLIENT_SIDE_ID,
+    user: {
+        "key": process.env.REACT_APP_LAUNCH_DARKLY_KEY
+    }
+})(App)
