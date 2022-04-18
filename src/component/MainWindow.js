@@ -11,6 +11,7 @@ import PlaylistWindow from "./playlist/PlaylistWindow"
 import SongCommentWindow from "./comment/SongCommentWindow"
 import UserCommentWindow from "./comment/UserCommentWindow"
 import NotFound from "./NotFound"
+import SongTextWindow from "./text/SongTextWindow"
 
 const MainWindow = () => {
     return (
@@ -30,6 +31,7 @@ const MainWindow = () => {
                 <Routes>
                     <Route path="/" element={<SongsContainer displayedInformation="allSongs"/>}/>
                     <Route path="/songs/:id/comments/" element={<SongCommentWindow/>}/>
+                    <Route path="/songs/:id/text/" element={<SongTextWindow/>}/>
                     <Route element={<PrivateRoute/>}>
                         <Route path="/songs" element={<SongsContainer displayedInformation="userSongs"/>}/>
                         <Route path="/playlists" element={<PlaylistsContainer/>}/>

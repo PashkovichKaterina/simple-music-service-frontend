@@ -1,6 +1,6 @@
 import React from "react"
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome"
-import {faPlus, faClose, faStar, faComment} from "@fortawesome/free-solid-svg-icons"
+import {faPlus, faClose, faStar, faComment, faFileText} from "@fortawesome/free-solid-svg-icons"
 import AuthorizationLogic from "../../service/AuthorizationLogic"
 import {withLDConsumer} from "launchdarkly-react-client-sdk"
 
@@ -67,6 +67,12 @@ const Song = (props) => {
                                      className="comments-icon icon"
                                      title="Song comments"/>
                     {song.comments_count}
+                </p>
+                <p className="see-text-button" onClick={() => window.location.assign(`/songs/${song.id}/text`)}>
+                    <FontAwesomeIcon icon={faFileText}
+                                     id={song.id}
+                                     className="text-icon icon"
+                                     title="text"/>
                 </p>
             </div>
             {ratingButton}
