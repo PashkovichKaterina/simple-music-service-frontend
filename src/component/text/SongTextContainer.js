@@ -70,11 +70,14 @@ class SongTextContainer extends React.PureComponent {
                        controls={true}
                        className="player-component"/>
             </div> : ""
-        const message = text ? <div>{text}</div> : "Speech recognition in progress"
+        const message = text ? text : "Speech recognition in progress"
         return (
             <div>
                 {songElement}
-                {message}
+                <p className="recognized-title">Recognized text:</p>
+                <div className="recognized-text">
+                    {message}
+                </div>
             </div>
         )
     }
