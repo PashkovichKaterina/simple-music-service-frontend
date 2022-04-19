@@ -6,11 +6,7 @@ import BackendAPI from "../../service/BackendAPI"
 class SongTextContainer extends React.PureComponent {
     constructor(props) {
         super(props)
-        this.state = {
-            text: "",
-            successRecognition: false,
-            badRequest: false
-        }
+        this.state = {}
     }
 
     componentDidMount() {
@@ -23,46 +19,36 @@ class SongTextContainer extends React.PureComponent {
                     }
                     window.location.assign("/not_founds")
                 })
-                .then(json => this.setState({song: json}))
+                .then(json => this.setState({song: json}, () => this.getRecognizedSpeech()))
+        }
+    }
 
-            BackendAPI.recognizedSpeech(songId)
+    getRecognizedSpeech() {
+        const {song} = this.state
+        if (!song.lyrics) {
+            BackendAPI.recognizedSpeech(song.id)
                 .then(response => {
                     if (response.status === 202) {
-                        return response.json()
+                        this.setState({interval: setInterval(() => this.checkRecognizedResult(), 5000)})
                     }
-                    window.location.assign("/not_founds")
                 })
-                .then(json => this.setState({resultUrl: json.result_url},
-                    () => this.setState({timer: setInterval(() => this.checkRecognizedResult(), 5000)})))
         }
     }
 
     checkRecognizedResult() {
-        const {resultUrl} = this.state
-        BackendAPI.checkRecognizedResult(resultUrl)
-            .then(response => {
-                if (response.status === 200) {
-                    this.setState({successRecognition: true})
-                    clearInterval(this.state.timer)
-                    return response.json()
-                }
-                if (response.status === 400) {
-                    this.setState({badRequest: true})
-                    clearInterval(this.state.timer)
-                    return response.json()
-                }
-            })
+        const {songId} = this.props
+        BackendAPI.getSongById(songId)
+            .then(response => response.json())
             .then(json => {
-                if (this.state.successRecognition) {
-                    this.setState({text: json.text})
-                } else if (this.state.badRequest) {
-                    this.setState({text: json.detail})
+                if (json.lyrics) {
+                    this.setState({song: json})
+                    clearInterval(this.state.interval)
                 }
             })
     }
 
     render() {
-        const {song, text} = this.state
+        const {song} = this.state
         const songElement = song ?
             <div>
                 <h2>{song.title} - {song.artist.map((a) => a.name).join(", ")}</h2>
@@ -70,7 +56,9 @@ class SongTextContainer extends React.PureComponent {
                        controls={true}
                        className="player-component"/>
             </div> : ""
-        const message = text ? text : "Speech recognition in progress"
+        const message = song && song.lyrics
+            ? song.lyrics.length > 0 ? song.lyrics : "Unable to recognize this speech"
+            : "Speech recognition in progress"
         return (
             <div>
                 {songElement}
