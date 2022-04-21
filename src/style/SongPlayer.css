@@ -40,6 +40,16 @@ audio {
     background: #ad2121;
 }
 
+.recognized-text {
+    margin: 10px 30px;
+    font-size: 20px;
+}
+
+.recognized-title {
+    font-size: 20px;
+    font-weight: bold;
+}
+
 .delete-song-button {
     position: absolute;
     right: 30px;
@@ -183,7 +193,7 @@ audio {
     color: #ffea67;
 }
 
-.rating-block, .see-comment-button {
+.rating-block, .see-comment-button, .see-text-button {
     display: inline-block;
     margin: 0;
 }
@@ -192,11 +202,15 @@ audio {
     color: #a9baff;
 }
 
-.see-comment-button {
+.text-icon {
+    color: #cba9ff;
+}
+
+.see-comment-button, .see-text-button {
     padding-left: 20px;
 }
 
-.see-comment-button:hover {
+.see-comment-button:hover, .see-text-button:hover {
     cursor: pointer;
 }
 

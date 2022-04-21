@@ -251,6 +251,10 @@ class BackendAPI {
             })
     }
 
+    recognizedSpeech(songId) {
+        return fetch(process.env.REACT_APP_BACKEND_URL + `songs/${songId}/recognize_speech/`)
+    }
+
     getUrlWithParameters(url, page, pageSize, search, sorting) {
         let parameters = this.getUrlParameter("page", page) + this.getUrlParameter("page_size", pageSize)
             + this.getUrlParameter("search", search) + this.getUrlParameter("ordering", sorting)
