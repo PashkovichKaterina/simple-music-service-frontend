@@ -255,6 +255,19 @@ class BackendAPI {
         return fetch(process.env.REACT_APP_BACKEND_URL + `songs/${songId}/recognize_speech/`)
     }
 
+    getArchiveData() {
+        return this.checkToken()
+            .then(() => {
+                return fetch(process.env.REACT_APP_BACKEND_URL + `users/${AuthorizationLogic.getUserId()}/archive_data/`, {
+                    method: "GET",
+                    headers: {
+                        "Authorization": "Bearer " + AuthorizationLogic.getAccessToken(),
+                        "Content-Type": "application/json",
+                    }
+                })
+            })
+    }
+
     getUrlWithParameters(url, page, pageSize, search, sorting) {
         let parameters = this.getUrlParameter("page", page) + this.getUrlParameter("page_size", pageSize)
             + this.getUrlParameter("search", search) + this.getUrlParameter("ordering", sorting)
