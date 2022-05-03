@@ -265,6 +265,35 @@ audio {
     cursor: pointer
 }
 
+.archive-date {
+    font-size: 18px;
+    margin-bottom: 15px;
+}
+
+.archive-date-block label {
+    font-weight: lighter;
+    font-size: 18px;
+}
+
+.archive-date-block {
+    width: 40%;
+    display: inline-block;
+    margin-right: 20px;
+}
+
+.archive-header {
+    font-weight: bold;
+    font-size: 25px;
+    margin-bottom: 50px;
+}
+
+.archive-is-formed {
+    display: inline-block;
+    margin: 10px;
+    font-style: italic;
+    font-size: 15px;
+}
+
 audio::-webkit-media-controls {
     width: inherit;
     height: inherit;

@@ -2,27 +2,12 @@ import React from "react"
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome"
 import {faUser} from "@fortawesome/free-solid-svg-icons"
 import AuthorizationLogic from "../service/AuthorizationLogic"
-import BackendAPI from "../service/BackendAPI"
 
 class AccountContainer extends React.PureComponent {
     signOut = () => {
         AuthorizationLogic.deleteAccessToken()
         AuthorizationLogic.deleteRefreshToken()
         window.location.reload()
-    }
-
-    getArchiveData = () => {
-        BackendAPI.getArchiveData()
-            .then(response => response.blob())
-            .then(blob => {
-                const href = window.URL.createObjectURL(new Blob([blob]))
-                const link = document.createElement("a")
-                link.href = href
-                link.download = "data.zip"
-                document.body.appendChild(link)
-                link.click()
-                document.body.removeChild(link)
-            })
     }
 
     render() {
@@ -46,7 +31,7 @@ class AccountContainer extends React.PureComponent {
                              onClick={() => window.location.assign(`/users/${AuthorizationLogic.getUserId()}/comments`)}>
                             My comments
                         </div>
-                        <div className="profile-menu-item" onClick={this.getArchiveData}>
+                        <div className="profile-menu-item" onClick={() => window.location.assign("/archive/")}>
                             Archive data
                         </div>
                         <div className="profile-menu-item" onClick={this.signOut}>Sign out</div>
