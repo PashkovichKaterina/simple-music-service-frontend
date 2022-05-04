@@ -6,6 +6,7 @@ class ArchiveDataContainer extends React.PureComponent {
         super(props)
         this.state = {
             isArchivingInProgress: false,
+            isSuccessfulArchiving: true,
             fromDate: "",
             toDate: ""
         }
@@ -15,29 +16,40 @@ class ArchiveDataContainer extends React.PureComponent {
         this.setState({isArchivingInProgress: true})
         const {fromDate, toDate} = this.state
         BackendAPI.getArchiveData(fromDate, toDate)
-            .then(response => response.blob())
+            .then(response => {
+                if (response.ok) {
+                    return response.blob()
+                } else {
+                    this.setState({isSuccessfulArchiving: false, isArchivingInProgress: false})
+                }
+            })
             .then(blob => {
-                const href = window.URL.createObjectURL(new Blob([blob]))
-                const link = document.createElement("a")
-                link.href = href
-                link.download = "data.zip"
-                document.body.appendChild(link)
-                link.click()
-                document.body.removeChild(link)
-                this.setState({isArchivingInProgress: false})
+                if (this.state.isSuccessfulArchiving) {
+                    const href = window.URL.createObjectURL(new Blob([blob]))
+                    const link = document.createElement("a")
+                    link.href = href
+                    link.download = "data.zip"
+                    document.body.appendChild(link)
+                    link.click()
+                    document.body.removeChild(link)
+                    this.setState({isArchivingInProgress: false})
+                }
             })
     }
 
     handleChangeInputField = (event) => {
-        const {name, value} = event.target;
+        const {name, value} = event.target
         this.setState({
             [name]: value
-        });
+        })
     }
 
     render() {
-        const {isArchivingInProgress} = this.state
-        const message = isArchivingInProgress ? <div className="archive-is-formed">archive is being formed</div> : ""
+        const {isArchivingInProgress, isSuccessfulArchiving} = this.state
+        const progressMessage = isArchivingInProgress
+            ? <div className="archive-is-formed">archive is being formed</div> : ""
+        const errorMessage = isSuccessfulArchiving ? ""
+            : <div className="error-data">Unable to form archive file for you. Try later.</div>
         return (
             <div>
                 <div className="archive-header">Download archive with user data</div>
@@ -53,7 +65,8 @@ class ArchiveDataContainer extends React.PureComponent {
                            onChange={this.handleChangeInputField}/>
                 </div>
                 <button onClick={this.getArchiveData}>Download archive</button>
-                {message}
+                {progressMessage}
+                {errorMessage}
             </div>
         )
     }
